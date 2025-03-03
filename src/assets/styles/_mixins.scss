@@ -1,0 +1,26 @@
+@use 'variables.scss' as variables;
+
+
+@mixin desktop-xl(){
+    @media only screen and (width > variables.$screen-desktop-xl){
+        @content;
+    }
+}
+
+@mixin desktop(){
+    @media only screen and (width >= variables.$screen-desktop-lg){
+        @content;
+    }
+}
+
+@mixin tablet(){
+    @media only screen and (width > variables.$screen-desktop-md){
+        @content;
+    }
+}
+
+@mixin mobile(){
+    @media only screen and (width > variables.$screen-desktop-sm){
+        @content;
+    }
+}

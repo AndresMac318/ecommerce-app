@@ -1,0 +1,33 @@
+$colors: (
+    //texts darks
+    purple-1: #2a1454, 
+
+    //texts lights
+    purple-2: #8750F7, 
+    purple-2-light: #381f6b,
+
+    white-1: #FFFFFF,
+
+    //text subtitle
+    white-2: #DDDDDD,
+
+    //text title
+    white-3: #FEFEFE,
+
+    dark-1: #0F0715,
+
+    dark-2: #050709,
+
+    dark-3: #140C1C,
+
+    gray-1: #747779 
+);
+
+@function color($color-name){
+    @return map-get($colors, $color-name);
+}
+
+$screen-desktop-xl: 1200px;
+$screen-desktop-lg: 1024px;
+$screen-desktop-md: 750px;
+$screen-desktop-sm: 576px;

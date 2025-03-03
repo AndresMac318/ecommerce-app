@@ -1,0 +1,80 @@
+{
+    "users": [
+        {
+            "id": "23e7",
+            "firstName": "Andres",
+            "lastName": "Macea",
+            "email": "andres@gmail.com",
+            "phoneNumber": "3110411888",
+            "dateOfBirth": "2000-02-07T19:00:00.000Z",
+            "password": "123456",
+            "role": "ADMIN",
+            "address": "Calle 123 #45-67, Cali",
+            "cart": []
+        },
+        {
+            "id": "23e8",
+            "firstName": "Carlos",
+            "lastName": "Cadena",
+            "email": "carlos@gmail.com",
+            "phoneNumber": "3009991888",
+            "dateOfBirth": "2003-09-22T12:00:00.000Z",
+            "password": "123456",
+            "role": "CUSTOMER",
+            "address": "Calle 22 #11-32, Medellin",
+            "cart": []
+        }
+    ],
+    "products": [
+        {
+            "id": "1",
+            "name": "Laptop 14 inches",
+            "price": 1400000.00,
+            "description": "Laptop Lenovo 14'",
+            "imageURL": "",
+            "stock": 22
+        },
+        {
+            "id": "2",
+            "name": "PC AIO 24 inches",
+            "price": 2300000.00,
+            "description": "Computer AIO LG 24'",
+            "imageURL": "",
+            "stock": 12
+        }
+    ],
+    "cart": [
+        {
+            "idUser": "23e7",
+            "products": [
+                {
+                    "id": "1",
+                    "quantity": 2
+                },
+                {
+                    "id": "2",
+                    "quantity": 1
+                }
+            ]
+        }
+    ],
+    "sales": [
+        {
+            "id": "101",
+            "idUser": "23e7",
+            "salesProducts": [
+                {
+                    "id": 1,
+                    "quantity": 3
+                }, 
+                {
+                    "id": 2,
+                    "quantity": 1
+                } 
+            ],
+            "dateSale": "2025-02-01T19:00:00.000Z",
+            "paidType": "CASH",
+            "amountSale": 6500000.00
+        }
+    ]
+}

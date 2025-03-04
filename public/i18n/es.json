@@ -1,0 +1,33 @@
+{
+    "AUTH": {
+        "LOGIN": {
+            "title": "Iniciar Sesión",
+            "FORM": {
+                "labels": {
+                    "email": "Correo electrónico",
+                    "password": "Contraseña" 
+                },                
+                "text_btn": "Ingresar",
+                "text_not_account": "¿No tienes cuenta? Regístrate"
+            }
+        },
+        "REGISTER": {
+            "title": "Registro",
+            "FORM": {
+                "labels": {
+                    "name": "Nombre",
+                    "email": "Correo electrónico",
+                    "password": "Contraseña" 
+                },
+                "text_btn": "Registrarse",
+                "text_have_account": "¿Ya tienes cuenta? Inicia sesión"
+            }
+        },
+        "errors": {
+            "name": "El nombre es obligatorio",
+            "email": "El correo electrónico es obligatorio",
+            "email_invalid": "El correo electrónico es invalido",
+            "password": "La contraseña es obligatoria"
+        }
+    }
+}

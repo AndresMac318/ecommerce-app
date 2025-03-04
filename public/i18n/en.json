@@ -1,0 +1,33 @@
+{
+    "AUTH": {
+        "LOGIN": {
+            "title": "Iniciar Sesión",
+            "FORM": {
+                "labels": {
+                    "email": "Email",
+                    "password": "Password" 
+                },
+                "text_btn": "Sign In",
+                "text_not_account": "You don't have account? Log In"
+            }
+        },
+        "REGISTER": {
+            "title": "Register",
+            "FORM": {
+                "labels": {
+                    "name": "Name",
+                    "email": "Email",
+                    "password": "Password"
+                },
+                "text_btn": "Log In",
+                "text_have_account": "Do you have an account yet? Sign In"
+            }
+        },
+        "errors": {
+            "name": "Name is mandatory",
+            "email": "Email is mandatory",
+            "email_invalid": "Email invalid",
+            "password": "Password is mandatory"
+        }
+    }
+}

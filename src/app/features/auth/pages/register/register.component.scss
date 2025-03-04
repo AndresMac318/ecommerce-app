@@ -15,7 +15,7 @@
 
   h2 {
     margin-bottom: 1rem;
-    color: #424242;
+    color: variables.color(gray-1);
   }
 
   .full-width {
@@ -31,7 +31,7 @@
   .register-link {
     display: block;
     margin-top: 1rem;
-    color: #3f51b5;
+    color: variables.color(blue-1);
     text-decoration: none;
   }
 

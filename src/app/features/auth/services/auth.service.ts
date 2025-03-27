@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
-import { catchError, map } from 'rxjs';
+import { catchError, map, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -14,13 +14,13 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  login(email: string, password: string){
+  login(email: string, password: string): Observable<any>{
+    
     return this.http.get<any[]>(`${this.api_url}/users?email=${email}`).pipe(
       map(users => {
         const user = users[0];
         if (user && user.password === password) {
-          // const { password, ...userWithoutPassword } = user;
-          return user; // Return the user without the password
+          return user;
         } else {
           throw new Error('Invalid email or password');
         }
@@ -36,7 +36,12 @@ export class AuthService {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem('user');
     localStorage.removeItem('userId');
+    localStorage.setItem('isLoggedIn', 'false');
     this.router.navigate(['/auth/login']);
+  }
+
+  isLoggedIn(): boolean {
+    return localStorage.getItem('isLoggedIn') === 'true';
   }
 
 }

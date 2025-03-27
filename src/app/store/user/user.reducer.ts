@@ -1,80 +1,80 @@
 import { createReducer, on } from "@ngrx/store";
-import { AuthState } from "../app.state";
-import * as AuthActions from './user.actions';
+import { UserState } from "../app.state";
+import * as UserActions from './user.actions';
 
-export const initialState: AuthState = {
+export const initialState: UserState = {
     user: null,
     loading: false,
     error: null
 };
 
-export const authReducer = createReducer(
+export const userReducer = createReducer(
     initialState,
     // Login
-    on(AuthActions.login, (state) => ({
+    on(UserActions.login, (state) => ({
         ...state,
         loading: true,
         error: null
     })),
-    on(AuthActions.loginSuccess, (state, { user }) => ({
+    on(UserActions.loginSuccess, (state, { user }) => ({
         ...state,
         user,
         loading: false,
         error: null
     })),
-    on(AuthActions.loginFailure, (state, { error }) => ({
+    on(UserActions.loginFailure, (state, { error }) => ({
         ...state,
         user: null,
         loading: false,
         error
     })),
     //Logout
-    on(AuthActions.logout, (state) => ({
+    on(UserActions.logout, (state) => ({
         ...state,
         loading: true,
     })),
-    on(AuthActions.logoutSuccess, () => ({
+    on(UserActions.logoutSuccess, () => ({
         user: null,
         loading: false,
         error: null,
     })),
     // Signup
-    on(AuthActions.signup, (state) => ({
+    on(UserActions.signup, (state) => ({
         ...state,
         loading: true,
     })),
-    on(AuthActions.signupSuccess, (state, { user }) => ({
+    on(UserActions.signupSuccess, (state, { user }) => ({
         ...state,
         user,
         loading: false,
         error: null,
     })),
-    on(AuthActions.signupFailure, (state, { error }) => ({
+    on(UserActions.signupFailure, (state, { error }) => ({
         ...state,
         loading: false,
         error,
     })),
     // User
-    on(AuthActions.updateProfile, (state) => ({
+  /*   on(AuthActions.updateProfile, (state) => ({
         ...state,
         loading: true,
         error: null
-    })),
-    on(AuthActions.updateProfileSuccess, (state, { user }) => ({
+    })), */
+    /* on(AuthActions.updateProfileSuccess, (state, { user }) => ({
         ...state,
-        user,
+        currentUser: user,
         error: null
     })),
     on(AuthActions.updateProfileFailure, (state, { error }) => ({
         ...state,
         error
-    })),
-    on(AuthActions.changePassword, (state, { newPassword }) => ({
+    })), */
+    /* on(AuthActions.changePassword, (state, { newPassword }) => ({
         ...state,
         loading: true,
         error: null
-    })),
-    on(AuthActions.changePasswordSuccess, (state, { user }) => ({
+    })), */
+    /* on(AuthActions.changePasswordSuccess, (state, { user }) => ({
         ...state,
         currentUser: user,
         error: null
@@ -82,5 +82,5 @@ export const authReducer = createReducer(
     on(AuthActions.changePasswordFailure, (state, { error }) => ({
         ...state,
         error
-    }))
+    })) */
 )

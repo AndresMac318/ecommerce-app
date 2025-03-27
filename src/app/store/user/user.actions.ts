@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { User } from '../../models/user.model';
+import { User } from '../../core/interfaces/user.model';
 
 // Login
 
@@ -18,8 +18,6 @@ export const loginFailure = createAction(
     props<{ error: string }>()
 );
 
-// Logout
-
 export const logout = createAction('[Auth] Logout');
 
 export const logoutSuccess = createAction('[Auth] Logout Success');
@@ -28,7 +26,7 @@ export const logoutSuccess = createAction('[Auth] Logout Success');
 
 export const signup = createAction(
     '[Auth] Signup',
-    props<{ userData: Omit<User, 'id'> }>()
+    props<{ userData: Omit<User, 'id' | 'role' | 'cart'> }>()
 );
 
 export const signupSuccess = createAction(
@@ -45,30 +43,30 @@ export const signupFailure = createAction(
 
 export const updateProfile = createAction(
     '[User] Update Profile',
-    props<{ userId: string; user: Partial<User> }>()
+    props<{ userId: string; userData: any }>()
 );
 
 export const updateProfileSuccess = createAction(
     '[User] Update Profile Success',
-    props<{ user: User }>()
+    props<{ user: any }>()
 );
 
 export const updateProfileFailure = createAction(
     '[User] Update Profile Failure',
-    props<{ error: string }>()
+    props<{ error: any }>()
 );
 
-export const changePassword = createAction(
+/* export const changePassword = createAction(
     '[User] Change Password',
-    props<{ userId: string; newPassword: string }>()
+    props<{ userId: string; updateUserData: any }>()
 );
 
 export const changePasswordSuccess = createAction(
     '[User] Change Password Success',
-    props<{ user: User }>()
+    props<{ user: any }>()
 );
 
 export const changePasswordFailure = createAction(
     '[User] Change Password Failure',
-    props<{ error: string }>()
-);
+    props<{ error: any }>()
+); */

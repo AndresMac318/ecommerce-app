@@ -1,0 +1,60 @@
+@use '../../../../../public/styles/mixins.scss' as mixins;
+
+:host {
+  display: block;
+  .container {
+    width: 100%;
+    height: calc(100vh - 56px);
+    //border: 1px solid rgba(0, 0, 0, 0.5);
+  }
+  
+  .sidenav-content {
+    display: flex;
+    // height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .example-sidenav {
+    padding: 20px;
+  }
+  .mat-drawer {
+    //background: #d7e3ff;
+    color: #005cbb;
+    width: 260px;
+    box-shadow: 4px 4px 15px 1px rgba(215,227,255,0.75);
+    -webkit-box-shadow: 4px 4px 15px 1px rgba(215,227,255,0.75);
+    -moz-box-shadow: 4px 4px 15px 1px rgba(215,227,255,0.75);
+  }
+  li{
+    padding: 8px 10px;
+    color: #fff;
+  }
+
+  
+  a {
+    color: #005cbb;
+    margin: 0 0 0 8px;
+  }
+
+  li {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    border-radius: 9999px;
+    cursor: pointer;
+  }
+  li:hover{
+    background: #aab7d4;
+    color: #fff;
+  }
+  mat-icon {
+    color: #005cbb;
+  }
+  
+  @include mixins.mobile(){
+    .container {
+      height: calc(100vh - 64px);
+    }
+  }
+}

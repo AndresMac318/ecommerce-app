@@ -1,0 +1,56 @@
+@use 'variables.scss' as variables;
+@use './mixins' as mixins;
+
+
+// styles reset
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* body {
+    background-color: antiquewhite;
+} */
+
+textarea {
+    resize: none;
+}
+
+.container-c {
+    width: 100%;
+    padding: 30px;
+}
+
+.myDialog {
+    width: 100%;
+    height: fit-content;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    //padding: 20px;
+    //margin: 20px;
+    display: block;
+    transition: all 100ms linear;    
+
+    // transition: transform 300ms ease-out, opacity 300ms ease-out;
+
+    @include mixins.mobile(){
+        width: 80%;
+        
+    }
+}
+
+/* .myDialogBackdrop {
+    &.cdk-dialog-backdrop-start {
+      opacity: 0;
+    }
+    
+    &.cdk-dialog-backdrop-end {
+      opacity: 1;
+    }
+    
+    transition: opacity 300ms ease-out;
+  } */

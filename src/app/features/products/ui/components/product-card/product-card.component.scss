@@ -1,0 +1,123 @@
+@use '../../../../../../../public/styles/mixins' as mixins;
+
+:host {
+  display: block;
+  .card {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 885px;
+    margin: auto;
+    //min-height: 330px;
+    padding: 20px;
+    cursor: pointer;
+    background-color: #fefefe;
+    box-shadow: 2px 0px 2px 0px rgba(214, 214, 214, 1);
+    //-webkit-box-shadow: 6px 5px 5px 0px rgba(214,214,214,1);
+    //-moz-box-shadow: 6px 5px 5px 0px rgba(214,214,214,1);
+    -webkit-box-shadow: 2px 0px 3px 0px rgb(214, 214, 214);
+    -moz-box-shadow: 2px 0px 3px 0px rgb(214, 214, 214);
+
+    &__img {
+      height: 200px;
+      width: 110px;
+      object-fit: contain;
+      margin: 0 auto 20px;
+      //width: 30%;
+    }
+    &__favoritebtn {
+      //color: red;
+      display: none;
+      text-align: end;
+      margin: auto 0 0 auto;
+      background-color: transparent;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition:
+        opacity 0.5s ease,
+        visibility 500ms ease,
+        transform 0.5s ease;
+      &--active {
+        display: block;
+        text-align: end;
+        margin: auto 0 0 auto;
+      }
+    }
+    &__maticon {
+      color: transparent;
+      //-webkit-text-fill-color: transparent;
+      stroke: red;
+      stroke-width: 1px;
+      fill: transparent;
+      transition: all 300ms ease-in-out;
+      -webkit-text-stroke-color: red;
+      -webkit-text-stroke-width: medium;
+      &--select {
+        color: red;
+        -webkit-text-fill-color: red;
+      }
+    }
+    &__info {
+      display: flex;
+      flex-flow: column nowrap;
+      width: 100%;
+      padding: 0 0 0 16px;
+    }
+    &__title {
+      margin: 0 0 12px 0;
+      font-size: 1em;
+    }
+    &__description {
+      margin: 0 0 10px 0;
+      font-size: 0.9em;
+    }
+    &__price {
+      color: #00a650;
+      font-size: 1.3rem;
+      font-weight: 500;
+      &--dto {
+        color: gray;
+        font-size: 1rem;
+        text-decoration: line-through;
+      }
+    }
+
+    &:hover {
+      .card__favoritebtn {
+        //color: red;
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0px);
+      }
+    }
+  }
+
+  /* :hover.card .card__favoritebtn {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0px);
+  } */
+
+  @include mixins.desktop() {
+    .card {
+      padding: 30px;
+      &__img {
+        width: 140px;
+      }
+    }
+  }
+  @include mixins.desktop-xl() {
+    .card {
+      picture {
+        width: 250px;
+      }
+      &__img {
+        width: 180px;
+      }
+    }
+  }
+}

@@ -1,0 +1,80 @@
+@use '../../../../../../../public/styles/mixins' as mixins;
+
+:host {
+  .products {
+    display: flex;
+    flex-flow: row wrap;
+    padding: 30px;
+  }
+  .productslist {
+    width: 100%;
+    &__header {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 885px;
+      margin: 0 0 8px;
+    }
+    &__title {
+      margin: 0;
+    }
+  }
+
+  .pagination {
+    margin: 20px 0;
+    text-align: end;
+  }
+
+  @include mixins.tablet() {
+    .products {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      max-width: 1440px;
+      margin: auto;
+      position: relative;
+    }
+    .filters {
+      flex-flow: column wrap;
+      width: min-content;
+      position: sticky;
+      top: 31px;
+      height: fit-content;
+      align-self: start;
+      &__categoryitem {
+        display: block;
+      }
+    }
+    .productslist {
+      width: fit-content;
+      flex-flow: row nowrap;
+      margin: 0 0 0 30px;
+      &__empty {
+        min-width: 472px;
+      }
+    }
+  }
+
+  @include mixins.desktop() {
+    .productslist {
+      &__empty {
+        min-width: 700px;
+      }
+    }
+  }
+
+  @include mixins.desktop-xl() {
+    .products {
+      padding: 40px 60px;
+    }
+    .filters {
+      top: 61px;
+    }
+    .productslist {
+      &__empty {
+        min-width: 885px;
+      }
+    }
+  }
+}

@@ -1,0 +1,188 @@
+@use '../../../../../../../public/styles/mixins' as mixins;
+
+:host {
+  display: block;
+  /* .material-icons {
+    font-size: 30px;
+  } */
+  .detail {
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 30px;
+    max-width: 1440px;
+    margin: 0 auto;
+
+    &__contain {
+      display: flex;
+      flex-flow: column nowrap;
+    }
+
+    &__picture {
+      width: 100%;
+      text-align: center;
+    }
+
+    &__img {
+      height: 260px;
+      width: 240px;
+      object-fit: contain;
+      margin: 10px auto;
+    }
+
+    &__info {
+      display: flex;
+      flex-flow: row wrap;
+      align-items: flex-start;
+      margin: 0 0 10px 0;
+    }
+    &__prices {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      width: 100%;
+      margin: 0 0 12px 0;
+    }
+    &__pricebox {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__price {
+      color: #00a650;
+      font-size: 1.3rem;
+      font-weight: 500;
+      &--dto {
+        color: gray;
+        font-size: 1rem;
+        text-decoration: line-through;
+      }
+    }
+
+    &__favoritebtn {
+      //color: red;
+      display: block;
+      //text-align: end;
+      //margin: auto 0 0 auto;
+      background-color: transparent;
+      //opacity: 1;
+      //visibility: visible;
+      //transform: translateY(-10px);
+      transition:
+        opacity 0.5s ease,
+        visibility 500ms ease,
+        transform 0.5s ease;
+    }
+    &__maticon {
+      color: transparent;
+      //-webkit-text-fill-color: transparent;
+      stroke: red;
+      stroke-width: 1px;
+      fill: transparent;
+      height: 32px;
+      transition: all 300ms ease-in-out;
+      -webkit-text-stroke-color: red;
+      -webkit-text-stroke-width: medium;
+      &--select {
+        color: red;
+        -webkit-text-fill-color: red;
+      }
+    }
+
+    &__stock {
+      margin: 0 0 12px 0;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: rgba(194, 197, 217, 0.4901960784);
+      width: 100%;
+    }
+
+    &__buttons {
+      display: flex;
+      flex-flow: column wrap;
+      width: 100%;
+      margin: 10px 0 20px;
+      gap: 10px;
+    }
+
+    &__description {
+      margin: 0 0 10px 0;
+      font-size: 0.9em;
+    }
+
+    &:hover {
+      .card__favoritebtn {
+        //color: red;
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0px);
+      }
+    }
+  }
+
+  @include mixins.mobile() {
+    .detail {
+      display: flex;
+      flex-flow: column nowrap;
+      padding: 30px;
+      justify-content: space-evenly;
+
+      &__contain {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-around;
+        padding: 30px;
+        gap: 20px;
+      }
+      &__picture {
+        width: 50%;
+      }
+      &__img {
+        height: 280px;
+        width: 260px;
+        object-fit: contain;
+        margin: 10px auto;
+      }
+      &__info {
+        width: 50%;
+      }
+    }
+  }
+
+  @include mixins.tablet() {
+    .detail {
+      &__picture {
+        width: 34%;
+      }
+      &__img {
+        height: 320px;
+        width: 280px;
+        object-fit: contain;
+        margin: 10px auto;
+      }
+      &__info {
+        width: 34%;
+      }
+      &__description {
+        width: 50%;
+      }
+    }
+  }
+
+  @include mixins.desktop() {
+    .detail {
+      &__img {
+        height: 340px;
+        width: 360px;
+        object-fit: contain;
+        margin: 10px auto;
+      }
+    }
+  }
+
+  @include mixins.desktop-xl() {
+    .detail {
+      padding: 50px 60px;
+    }
+  }
+}

@@ -1,0 +1,13 @@
+**/.git
+**/.svn
+**/.hg
+**/node_modules
+
+# Ignore artifacts:
+dist/
+package.json
+package-lock.json
+*.md
+*.yml
+# Ignore all HTML files:
+**/*.html

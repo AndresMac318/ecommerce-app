@@ -1,0 +1,47 @@
+@use '../../../../../public/styles/mixins.scss' as mixins;
+
+:host {
+  .container {
+    display: block;
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px 16px;
+    margin: 20px;
+    //width: 800px;
+
+    .form {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-between;
+      &__title {
+        margin: 14px 0;
+      }
+      &__matfield {
+        width: 100%;
+        margin: 0 0 8px 0;
+      }
+      &__actions {
+        display: flex;
+        flex-direction: row-reverse;
+      }
+    }
+  }
+
+  @include mixins.mobile() {
+    .container {
+      padding: 30px 50px;
+    }
+  }
+
+  @include mixins.tablet() {
+    .container {
+      .form {
+        &__matfield {
+          width: 48%;
+        }
+      }
+    }
+  }
+
+  // 760px >
+}

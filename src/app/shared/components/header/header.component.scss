@@ -1,5 +1,6 @@
-:host {
+@use '../../../../../public/styles/mixins' as mixins;
 
+:host {
   display: block;
   .mat-toolbar {
     background: #d7e3ff;
@@ -8,7 +9,22 @@
   mat-icon {
     color: #005cbb;
   }
-  
+
+  .navbar {
+    &__title {
+      display: none;
+      font-weight: 500;
+    }
+  }
+
+  @include mixins.tablet() {
+    .navbar {
+      &__title {
+        display: block;
+        color: #005cbb;
+      }
+    }
+  }
 }
 
 /* .controlform {
@@ -37,7 +53,6 @@
 }
 
 .form {
-  
   display: flex;
   flex-flow: row;
   justify-content: center;

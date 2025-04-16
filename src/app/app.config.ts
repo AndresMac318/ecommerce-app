@@ -1,18 +1,36 @@
-import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection, isDevMode } from '@angular/core';
-import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  provideZoneChangeDetection,
+  isDevMode,
+  LOCALE_ID,
+} from '@angular/core';
+import {
+  provideRouter,
+  withComponentInputBinding,
+  withViewTransitions,
+} from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideState, provideStore } from '@ngrx/store';
-import { userReducer } from './store/user/user.reducer';
+import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { httpLoaderFactory } from './core/utils/utils';
-import { AuthEffects } from './store/user/user.effects';
+import { httpLoaderFactory } from './common/utils/utils';
+import { AuthEffects } from './features/auth/+state/user.effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { PRODUCT_API_PROVIDER } from './features/products/infrastructure/providers/productAPI.provider';
+import { productReducer } from './features/products/+state/product.reducers';
+import { ProductEffects } from './features/products/+state/products.effects';
 
+import { registerLocaleData } from '@angular/common';
+import localeEsCo from '@angular/common/locales/es-CO';
+import { AUTH_API_PROVIDER } from './features/auth/infrastructure/providers/authAPI.provider';
+import { userReducer } from './features/auth/+state/user.reducer';
+
+registerLocaleData(localeEsCo);
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,15 +38,21 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withViewTransitions(), withComponentInputBinding()),
     provideHttpClient(withFetch()),
     provideAnimationsAsync(),
-    provideStore({ user: userReducer }),
-    provideEffects(AuthEffects),
-    importProvidersFrom([TranslateModule.forRoot({
+    provideStore({ user: userReducer, product: productReducer }),
+    provideEffects([AuthEffects, ProductEffects]),
+    importProvidersFrom([
+      TranslateModule.forRoot({
         loader: {
-            provide: TranslateLoader,
-            useFactory: httpLoaderFactory,
-            deps: [HttpClient]
-        }
-    })]),
-    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
-]
+          provide: TranslateLoader,
+          useFactory: httpLoaderFactory,
+          deps: [HttpClient],
+        },
+      }),
+    ]),
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+    //custom providers
+    PRODUCT_API_PROVIDER,
+    AUTH_API_PROVIDER,
+    { provide: LOCALE_ID, useValue: 'es-CO' },
+  ],
 };

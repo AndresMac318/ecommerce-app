@@ -1,12 +1,14 @@
 {
   "users": [
     {
-      "name": "Andres Beltrán",
+      "name": "Andres Macea",
       "email": "andres@gmail.com",
-      "phoneNumber": "3156665555",
-      "dateOfBirth": "2000-02-07T19:00:00.000Z",
-      "address": "Calle 123 #45-67, Bogotá",
+      "phoneNumber": "3156661111",
+      "dateOfBirth": "2000-02-08T05:00:00.000Z",
+      "address": "Calle 89 #80-67, Buga",
       "password": "123456",
+      "role": "ADMIN",
+      "cart": [],
       "id": "23e7"
     },
     {
@@ -36,6 +38,17 @@
       "phoneNumber": "3224441010",
       "dateOfBirth": "2006-01-10T05:00:00.000Z",
       "address": "Crr 32 Cll 20 #32-19, Cartagena",
+      "password": "123456",
+      "role": "SELLER",
+      "cart": []
+    },
+    {
+      "id": "3508",
+      "name": "carlos tirado",
+      "email": "carlost@yahoo.es",
+      "phoneNumber": "3009998888",
+      "dateOfBirth": "2005-10-12T05:00:00.000Z",
+      "address": "CR 77 CLL 82, Yumbo",
       "password": "123456"
     }
   ],
@@ -48,19 +61,19 @@
       "imageURL": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
       "category": "men's clothing",
       "stock": 43,
-      "sale":false,
+      "sale": false,
       "sale_price": 0
     },
     {
       "id": "2",
       "name": "Mens Casual Premium Slim Fit T-Shirts ",
-      "price": 345999,
+      "price": 345900,
       "description": "Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight & soft fabric for breathable and comfortable wearing. And Solid stitched shirts with round neck made for durability and a great fit for casual fashion wear and diehard baseball fans. The Henley style round neckline includes a three-button placket.",
       "imageURL": "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg",
       "category": "men's clothing",
       "stock": 43,
-      "sale": false,
-      "sale_price": 0
+      "sale": true,
+      "sale_price": 330500
     },
     {
       "id": "3",
@@ -262,38 +275,41 @@
     },
     {
       "id": "21",
-      "name": "Laptop Lenovo 14 inches",
+      "name": "Laptop Lenovo Core I3-1215u, 8gb , 256gb Ssd, 14hd, Win 11",
       "price": 1400000,
-      "description": "Laptop Lenovo 14'",
+      "description": "El ordenador Lenovo IdeaPad 1 fue pensado para hacer tu vida más sencilla. Su diseño elegante e innovador y su comodidad para transportarlo, lo convertirá en tu PC favorita. Cualquier tarea que te propongas, ya sea en casa o en la oficina, la harás con facilidad gracias a su poderoso rendimiento.",
       "imageURL": "https://imgs.search.brave.com/8lyuyv5c26J-KtEBUuuh5K212tv3iaZ4xda7U8I-p3M/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NzFicGhLbXQwREwu/anBn",
       "category": "electronics",
       "stock": 22,
-      "sale": "true",
+      "sale": true,
       "sale_price": 1299999
     },
     {
       "id": "22",
-      "name": "PC LG AIO 24 inches",
+      "name": "Computadora Todo en Uno LG 24 pulgadas, Windows 10 Home, I5, 4GB, 1TB",
       "price": 2300000,
-      "description": "Computer AIO LG 24'",
+      "description": "LG 24V360-L.AR3WB. Diagonal de la pantalla: 60,5 cm (23.8 inches), Resolución de la pantalla: 1920 x 1080 Pixeles, Tipo HD: Full HD. Frecuencia del procesador: 1,6 GHz, Familia de procesador: Intel® Pentium®, Modelo del procesador: N3700. Memoria interna: 4 GB, Tipo de memoria interna: DDR3L-SDRAM, Velocidad de memoria del reloj: 1600 MHz. Capacidad total de almacenaje: 500 GB, Unidad de almacenamiento: Unidad de disco duro, Capacidad de disco duro: 500 GB. Modelo de adaptador de gráficos discretos: Not available, Modelo de gráficos en tarjeta: Intel HD Graphics, Frecuencia base de gráficos a bordo: 400 MHz",
       "imageURL": "https://imgs.search.brave.com/w3zz4EkfQE3Djti6CVN-gcuP3JbUKOaOivj5oibk2Qw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NDFrMXpVUXFmd0wu/anBn",
       "category": "electronics",
-      "stock": 12
+      "stock": 12,
+      "sale": true,
+      "sale_price": 2100000
     },
     {
       "id": "23",
       "name": "Tablet Samsung 11 inches",
-      "price": 2300000,
-      "description": "Tablet brand Samsung 11'",
+      "price": 730000,
+      "description": "Sumérgete en la era digital con la Samsung Galaxy Tab A9+ Wifi 128GB en elegante color gris. Esta tableta de alto rendimiento es el compañero ideal para quienes buscan una experiencia multimedia inigualable y una herramienta de productividad versátil. Con una pantalla de 11 pulgadas, disfrutarás de tus contenidos favoritos con una claridad y colores vibrantes que cobran vida ante tus ojos.",
       "imageURL": "https://imgs.search.brave.com/U1PsOWTRgD2Cu_ONrB_JvdWLfBEGH7E6nb2KDqyJSgQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NDErTm5IN3NleVMu/anBn",
       "category": "electronics",
       "stock": 12,
-      "sale": "true",
-      "sale_price": 2199999
+      "sale": true,
+      "sale_price": 695506
     }
   ],
   "cart": [
     {
+      "id": "2009",
       "idUser": "23e7",
       "products": [
         {
@@ -304,8 +320,7 @@
           "id": "2",
           "quantity": 1
         }
-      ],
-      "id": "2009"
+      ]
     }
   ],
   "sales": [

@@ -1,11 +1,19 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, effect, inject, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  ViewChild,
+} from '@angular/core';
 
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
-import { SidenavService } from '../../../core/services/sidenav.service';
-import { RouterOutlet } from '@angular/router';
+import { SidenavService } from '../../../common/services/sidenav.service';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-sidenav',
@@ -13,18 +21,26 @@ import {MatMenuModule} from '@angular/material/menu';
   imports: [
     MatSidenavModule,
     MatButtonModule,
+    RouterModule,
     RouterOutlet,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    TranslatePipe,
   ],
   template: `
     <mat-drawer-container class="container" autosize>
-      
       <mat-drawer #drawer class="example-sidenav" mode="side">
-        <ul>
+        <ul class="menu">
           <li>
-            <mat-icon>local_mall</mat-icon>
-            <a routerlink="">Products</a>
+            <a
+              class="menu__item"
+              routerLink="/products"
+              routerLinkActive="menu__selected"
+              [routerLinkActiveOptions]="{ exact: false }"
+            >
+              <mat-icon>local_mall</mat-icon>
+              {{ 'MAIN_COMPONENTS.sidenav.items.item1' | translate }}
+            </a>
           </li>
           <!-- <li (click)="showFiller = !showFiller" mat-raised-button>
             <mat-icon>shopping_cart</mat-icon>
@@ -50,7 +66,7 @@ import {MatMenuModule} from '@angular/material/menu';
               </li>
             </ul>
           } -->
-          
+
           <!-- <li mat-menu-item [matMenuTriggerFor]="categories">
             <mat-icon>shopping_cart</mat-icon>
             <a routerlink="">Products</a>
@@ -67,68 +83,66 @@ import {MatMenuModule} from '@angular/material/menu';
             <a routerlink="">Sales</a>
           </li> -->
           <li>
-            <mat-icon>shopping_cart</mat-icon>
-            <a routerlink="">Buys</a>
+            <a class="menu__item" routerlink="">
+              <mat-icon>shopping_cart</mat-icon>
+              {{ 'MAIN_COMPONENTS.sidenav.items.item2' | translate }}
+            </a>
           </li>
           <li>
-            <mat-icon>sell</mat-icon>
-            <a routerlink="">Offers</a>
+            <a class="menu__item" routerlink="">
+              <mat-icon>sell</mat-icon>
+              {{ 'MAIN_COMPONENTS.sidenav.items.item3' | translate }}
+            </a>
           </li>
           <li>
-            <mat-icon>history</mat-icon>
-            <a routerlink="">History</a>
+            <a class="menu__item" routerlink="">
+              <mat-icon>history</mat-icon>
+              {{ 'MAIN_COMPONENTS.sidenav.items.item4' | translate }}
+            </a>
           </li>
           <li>
-            <mat-icon>favorite</mat-icon>
-            <a routerlink="">Favorites</a>
+            <a class="menu__item" routerlink="">
+              <mat-icon>favorite</mat-icon>
+              {{ 'MAIN_COMPONENTS.sidenav.items.item5' | translate }}
+            </a>
           </li>
         </ul>
-        
+
         <!-- <button (click)="showFiller = !showFiller" mat-raised-button>
           Toggle extra text
         </button> -->
       </mat-drawer>
-
-      <!-- <div class="sidenav-content">
-        <h3>content</h3>
-        <router-outlet></router-outlet>
-      </div> -->
       <mat-drawer-content>
-      <router-outlet/>
+        <router-outlet />
       </mat-drawer-content>
-
     </mat-drawer-container>
   `,
   styleUrl: './sidenav.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidenavComponent implements OnInit, AfterViewInit {
-
+export class SidenavComponent implements AfterViewInit {
   @ViewChild('drawer') drawer!: MatDrawer;
   showFiller = false;
-  
 
   private sidenavSvc = inject(SidenavService);
 
-  constructor(){
+  constructor() {
     effect(() => {
       this.sidenavSvc.toggleSidenavSignal();
       this.toggle();
-    }) 
+    });
   }
 
-  ngOnInit(): void {} 
-
-  toggle(){
+  toggle() {
     if (this.drawer) {
       this.drawer.toggle();
     }
   }
 
   ngAfterViewInit() {
-    // Verificamos si hay un valor inicial y actualizamos el drawer
-    (this.sidenavSvc.toggleSidenavSignal()) ? this.drawer.open : this.drawer.close(); 
+    // Verify if there is a initial value and apdate the drawer
+    this.sidenavSvc.toggleSidenavSignal()
+      ? this.drawer.open()
+      : this.drawer.close();
   }
-
-
 }

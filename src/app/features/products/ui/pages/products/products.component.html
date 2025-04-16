@@ -1,0 +1,50 @@
+<div class="products">
+    @if (showFilters()) {
+        <section class="filters" @fadeInOut>
+          <app-products-filters></app-products-filters>
+        </section>
+    }
+    
+    <section class="productslist">
+
+      <div class="productslist__header">
+        <h2 class="productslist__title">{{ "PRODUCTS.title" | translate }}</h2>
+        <button mat-button (click)="toggleFilters()" >
+            <mat-icon>tune</mat-icon>{{ "PRODUCTS.filters" | translate }}
+        </button>
+      </div>
+  
+      @if (loading()) {
+        <div>Loading...</div>
+      } @else {
+        <ol>
+          @for (product of products(); track product.id) {
+            <li>
+              <app-product-card [productData]="product"></app-product-card>
+            </li>
+          }@empty {
+              <div class="productslist__empty">
+                  There're not products that show
+              </div>
+          }
+        </ol>
+      }
+
+      @if (products().length > 0) {
+        <div class="pagination">
+          {{ "MAIN_COMPONENTS.buttons.pages" | translate }}
+          @for (page of getPages(pagination()); track page) {
+            <button 
+              mat-button
+              (click)="changePage(page)"
+              [class.active]="(pagination()).currentPage === page"
+            >
+              {{ page }}
+            </button>
+          }
+        </div>
+      }
+        
+    </section>
+  </div>
+  

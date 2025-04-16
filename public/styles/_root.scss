@@ -39,8 +39,12 @@ textarea {
 
     @include mixins.mobile(){
         width: 80%;
-        
     }
+
+    @include mixins.desktop(){
+        width: 60%;
+    }
+
 }
 
 /* .myDialogBackdrop {

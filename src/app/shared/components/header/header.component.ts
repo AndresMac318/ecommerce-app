@@ -1,88 +1,89 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  signal,
+} from '@angular/core';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-import { AuthService } from '../../../features/auth/services/auth.service';
-import { Router } from '@angular/router';
-import { SidenavService } from '../../../core/services/sidenav.service';
-import { DialogService } from '../../../core/services/dialog.service';
+import { MatBadgeModule } from '@angular/material/badge';
+import { AuthService } from '../../../features/auth/infrastructure/auth.service';
+import { Router, RouterLink } from '@angular/router';
+import { SidenavService } from '../../../common/services/sidenav.service';
+import { DialogService } from '../../../common/services/dialog.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { EditProfileDialogComponent } from '../../../features/profile/edit-profile-dialog/edit-profile-dialog.component';
-import { User } from '../../../core/interfaces/user.model';
-import { TranslateService } from '@ngx-translate/core';
+import { EditProfileDialogComponent } from '../../../features/user/edit-profile-dialog/edit-profile-dialog.component';
+import { UserDomain } from '../../../features/auth/domain/userDomain.model';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { map, Observable, startWith } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
-import { ProductsService } from '../../../features/products/services/products.service';
-import { OptionItem } from '../../../core/interfaces/optionItem.interface';
+import { OptionItem } from '../../../common/interfaces/optionItem.interface';
+import { ProductUseCaseService } from '../../../features/products/application/product-usecase.service';
 
 @Component({
   selector: 'app-header',
   imports: [
     ReactiveFormsModule,
     AsyncPipe,
+    TranslatePipe,
     MatToolbarModule,
     MatFormFieldModule,
     MatAutocompleteModule,
     MatMenuModule,
     MatButtonModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
+    MatBadgeModule,
+    RouterLink,
   ],
   template: `
     <mat-toolbar>
-      <button 
+      <button
         (click)="toggleSidenav()"
         type="button"
-        mat-icon-button 
-        class="example-icon" 
+        mat-icon-button
+        class="example-icon"
         aria-label="Example icon-button with menu icon"
       >
         <mat-icon>menu</mat-icon>
       </button>
 
-      <span>Ecommerce</span>
+      <a
+        routerLink="/products"
+        routerLinkActive="router-link-active"
+        class="navbar__title"
+        >WebMarket</a
+      >
 
-      <!-- <div class="controlform">
-          <form>
-              <input
-                class="controlform__input"
-                placeholder="Search here"
-                type="text"
-                [formControl]="searchInput"
-                
-                list="productsresults"
-              />
-              <datalist id="productsresults">
-                <option value="anillo"></option>
-                <option value="computador" (click)="toResult()" ></option>
-                <option value="mouse" (click)="toResult()" ></option>
-                <option value="tablet" (click)="toResult()" ></option>
-              </datalist>
-          </form>
-      </div> -->
-      
       <div class="formcontainer">
-          <form class="form">
-              <input
-                class="form__input"
-                placeholder="Search here"
-                type="text"
-                [formControl]="searchInput"
-                [matAutocomplete]="auto"
-              />
-              <mat-autocomplete #auto="matAutocomplete">
-                @for (option of filteredOptions | async; track option) {
-                  <mat-option [value]="option.name" (click)="toResult(option.id)" >{{option.name}}</mat-option>
-                }
-              </mat-autocomplete>
-          </form>
+        <form class="form">
+          <input
+            class="form__input"
+            placeholder="{{
+              'MAIN_COMPONENTS.header.input_placeholder' | translate
+            }}"
+            type="text"
+            [formControl]="searchInput"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete #auto="matAutocomplete">
+            @for (option of filteredOptions | async; track option) {
+              <mat-option [value]="option.name" (click)="toResult(option.id)">{{
+                option.name
+              }}</mat-option>
+            } @empty {
+              <mat-option>There arent's matching products</mat-option>
+            }
+          </mat-autocomplete>
+        </form>
       </div>
-      
+
       <button mat-icon-button [matMenuTriggerFor]="translateMenu">
         <mat-icon>translate</mat-icon>
       </button>
@@ -95,12 +96,19 @@ import { OptionItem } from '../../../core/interfaces/optionItem.interface';
           <span>English</span>
         </button>
       </mat-menu>
-      
+
+      <button
+        (click)="goToCart()"
+        mat-icon-button
+        class="example-icon"
+        aria-label="Example icon-button with shopping_cart icon"
+      >
+        <mat-icon matBadge="3" matBadgeSize="large" aria-hidden="shopping cart"
+          >shopping_cart_checkout</mat-icon
+        >
+      </button>
+
       @if (authSvc.isLoggedIn()) {
-        <button (click)="goToCart()" mat-icon-button class="example-icon" aria-label="Example icon-button with shopping_cart icon">
-          <mat-icon>shopping_cart_checkout</mat-icon>
-        </button>
-        
         <button mat-icon-button [matMenuTriggerFor]="beforeMenu">
           <mat-icon>account_circle</mat-icon>
         </button>
@@ -117,14 +125,12 @@ import { OptionItem } from '../../../core/interfaces/optionItem.interface';
           </button>
         </mat-menu>
       }
-
     </mat-toolbar>
   `,
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
-
   private isLoggedIn = signal(false);
   public products = signal([]);
 
@@ -134,81 +140,82 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     public authSvc: AuthService,
-    private productsSvc: ProductsService,
+    private productUseCaseSvc: ProductUseCaseService,
     private sidenavSvc: SidenavService,
     private router: Router,
     private translateSvc: TranslateService,
-    private dialogSvc: DialogService,
-  ){}
+    private dialogSvc: DialogService
+  ) {}
 
   ngOnInit(): void {
     const logged = localStorage.getItem('isLoggedIn');
+
     if (logged === 'true') {
       this.isLoggedIn.set(true);
     }
 
-    this.productsSvc.getProducts().subscribe(res => {
+    this.productUseCaseSvc
+      .getProducts()
+      .pipe(
+        map((products) =>
+          products.map((product) => ({
+            id: product.id,
+            name: product.name,
+          }))
+        )
+      )
+      .subscribe((res) => {
         this.options = res;
-        // console.log(this.options);
-    })
+      });
 
     this.filteredOptions = this.searchInput.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value || '')),
+      map((value) => this._filter(value || ''))
     );
   }
 
   private _filter(value: string): OptionItem[] {
-    
     const filterValue = value.toLowerCase();
     // console.log(filterValue);
-    
-    return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
+    return this.options.filter((option) =>
+      option.name.toLowerCase().includes(filterValue)
+    );
   }
 
-  toggleSidenav(){
-    // console.log('toggle');
-    //this.sidenavSvc.toggleSidenav();
+  toggleSidenav() {
     this.sidenavSvc.toggleSignal();
   }
 
-  toResult(idProduct: string){
+  toResult(idProduct: string) {
     this.router.navigate([`/products/${idProduct}`]);
   }
 
-  changeLanguage(language: 'es' | 'en'){
+  changeLanguage(language: 'es' | 'en') {
     this.translateSvc.use(language);
   }
-  
-  goToCart(){
-    if(this.isLoggedIn()){
-      alert('Redirect to cart !');
+
+  goToCart() {
+    if (this.isLoggedIn()) {
+      return console.log('Redirect to cart !');
     } else {
       this.router.navigateByUrl('auth/login');
     }
   }
 
-  openUpdateDialog(userId: string){
-    const dialogRef = this.dialogSvc.open(
-      EditProfileDialogComponent,
-      {
-        user: {id: userId } as User,
-        title: 'Account information'
-      }
-    );
+  openUpdateDialog(userId: string) {
+    const dialogRef = this.dialogSvc.open(EditProfileDialogComponent, {
+      user: { id: userId } as UserDomain,
+      title: 'Account information',
+    });
 
-    dialogRef.closed.subscribe(res => {
+    dialogRef.closed.subscribe((res) => {
       if (res?.updated) {
         console.log('Dialog closed!');
-        
       }
-    })
+    });
   }
 
-  logout(){
+  logout() {
     this.authSvc.logout();
   }
-
-
-
 }

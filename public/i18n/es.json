@@ -1,6 +1,7 @@
 {
     "AUTH": {
         "LOGIN": {
+            "copy": "¡Inicia sesión para comprar y disfrutar de una experiencia más completa!",
             "title": "Iniciar Sesión",
             "FORM": {
                 "labels": {
@@ -28,6 +29,40 @@
             "email": "El correo electrónico es obligatorio",
             "email_invalid": "El correo electrónico es invalido",
             "password": "La contraseña es obligatoria"
+        }
+    },
+    "MAIN_COMPONENTS": {
+        "header": {
+            "input_placeholder": "Busca tu producto"
+        },
+        "sidenav": {
+            "items": {
+                "item1": "Productos",
+                "item2": "Compras",
+                "item3": "Ofertas",
+                "item4": "Historial",
+                "item5": "Favoritos"
+            }
+        },
+        "buttons": {
+            "back": "Volver",
+            "buy": "Comprar",
+            "add_cart": "Agregar al carrito",
+            "pages": "Páginas:"
+        }
+    },
+    "PRODUCTS": {
+        "title": "Productos",
+        "filters": "Filtros",
+        "filter_menu": {
+            "title1": "Filtrar por categoría",
+            "title2": "Filtrar por precio"
+        },
+        "product_detail": {
+            "stock": "Stock disponible",
+            "no_stock": "Stock no disponible",
+            "text": "Compra ahora!",
+            "description": "Descripción"
         }
     }
 }

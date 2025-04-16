@@ -1,7 +1,8 @@
 {
     "AUTH": {
         "LOGIN": {
-            "title": "Iniciar Sesión",
+            "copy": "Log In for buy and enjoy a experience more complete!",
+            "title": "Login",
             "FORM": {
                 "labels": {
                     "email": "Email",
@@ -28,6 +29,40 @@
             "email": "Email is mandatory",
             "email_invalid": "Email invalid",
             "password": "Password is mandatory"
+        }
+    },
+    "MAIN_COMPONENTS": {
+        "header": {
+            "input_placeholder": "Search your product"
+        },
+        "sidenav": {
+            "items": {
+                "item1": "Products",
+                "item2": "Buys",
+                "item3": "Offers",
+                "item4": "History",
+                "item5": "Favorites"
+            }
+        },
+        "buttons": {
+            "back": "Back",
+            "buy": "Buy",
+            "add_cart": "Add to cart",
+            "pages": "Pages:"
+        }
+    },
+    "PRODUCTS": {
+        "title": "Products",
+        "filters": "Filters",
+        "filter_menu": {
+            "title1": "Filter by category",
+            "title2": "Filter by price"
+        },
+        "product_detail": {
+            "stock": "Stock available",
+            "no_stock": "Stock unavailable",
+            "text": "Buy know!",
+            "description": "Description"
         }
     }
 }

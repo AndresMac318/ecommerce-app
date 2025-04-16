@@ -1,0 +1,62 @@
+@use '../../../../../../../public/styles/mixins' as mixins;
+
+:host {
+  display: block;
+  .filters {
+    display: flex;
+    flex-flow: column wrap;
+    width: 100%;
+    &__title {
+      margin: 0 0 10px 0;
+    }
+    &__categoryitem {
+      display: block;
+      width: 100%;
+    }
+    mat-divider {
+      margin: 12px 0;
+      width: 100%;
+    }
+  }
+
+  .mat-mdc-slider {
+    display: inline-block;
+    box-sizing: border-box;
+    outline: none;
+    vertical-align: middle;
+    cursor: pointer;
+    height: 48px;
+    margin: 0 8px;
+    position: relative;
+    touch-action: pan-y;
+    width: auto;
+    min-width: 230px;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+
+  @include mixins.mobile-min() {
+    .filters {
+      flex-flow: row wrap;
+      &__categoryitem {
+        display: inline;
+      }
+    }
+  }
+
+  @include mixins.tablet() {
+    .filters {
+      flex-flow: column wrap;
+      width: min-content;
+      position: sticky;
+      top: 31px;
+      height: fit-content;
+      align-self: start;
+      &__categoryitem {
+        display: block;
+      }
+    }
+    .mat-mdc-slider {
+      min-width: 190px;
+    }
+  }
+}

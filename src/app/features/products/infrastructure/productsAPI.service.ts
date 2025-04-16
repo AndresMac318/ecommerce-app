@@ -1,0 +1,74 @@
+import { inject, Injectable } from '@angular/core';
+import { IProductAPIService } from './productsAPI.interface';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
+import { ProductDomain } from '../domain/productDomain.model';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from '../../../../environments/environment.development';
+import { ProductAPIResponse } from './models/productAPI.model';
+import { ProductFilters } from '../+state/product.state';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ProductsAPIService implements IProductAPIService {
+  private http = inject(HttpClient);
+  private readonly api_url = environment.API_URL_BASE;
+
+  getAllProducts(): Observable<ProductDomain[]> {
+    return this.http
+      .get<ProductAPIResponse[]>(`${this.api_url}/products`)
+      .pipe(
+        catchError((error) =>
+          throwError(() =>
+            console.log('An error has been in get products', error)
+          )
+        )
+      );
+  }
+
+  getProductsPaginated(
+    page: number,
+    pageSize: number,
+    filters?: ProductFilters
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('_page', page.toString())
+      .set('_per_page', pageSize.toString());
+
+    if (filters?.category) {
+      params = params.set('category', filters.category);
+    }
+    if (filters?.priceRange) {
+      params = params
+        .set('price_gte', filters.priceRange[0].toString())
+        .set('price_lte', filters.priceRange[1].toString());
+    }
+
+    return this.http
+      .get<Observable<any>>(`${this.api_url}/products`, {
+        params,
+        observe: 'response',
+      })
+      .pipe(
+        tap((res) => {
+          console.log('request http', res);
+        }),
+        map((res: any) => ({
+          products: res.body.data as ProductDomain[],
+          totalCount: res.body.items,
+        }))
+      );
+  }
+
+  getProductById(userId: string): Observable<ProductDomain> {
+    return this.http
+      .get<ProductAPIResponse>(`${this.api_url}/products/${userId}`)
+      .pipe(
+        catchError((error) =>
+          throwError(() =>
+            console.log('An error has been in get product', error)
+          )
+        )
+      );
+  }
+}

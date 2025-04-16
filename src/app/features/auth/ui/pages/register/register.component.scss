@@ -1,0 +1,41 @@
+@use '../../../../../../../public/styles/variables' as variables;
+
+:host {
+  display: block;
+}
+
+.register {
+  width: 100%;
+  max-width: 400px;
+  //margin: 80px auto;
+  padding: 30px;
+  text-align: center;
+  border-radius: 16px;
+  background-color: variables.color(white-1);
+
+  h2 {
+    margin-bottom: 1rem;
+    color: variables.color(gray-1);
+  }
+
+  .full-width {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .register-link {
+    display: block;
+    margin-top: 1rem;
+    color: variables.color(blue-1);
+    text-decoration: none;
+  }
+
+  .register-link:hover {
+    text-decoration: underline;
+  }
+}

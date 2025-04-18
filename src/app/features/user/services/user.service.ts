@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
 import { catchError, Observable, switchMap, throwError } from 'rxjs';
 import { UserDomain } from '../../auth/domain/userDomain.model';
+import { AuthAPIResponse } from '../../auth/infrastructure/models/authResponse.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,16 +22,16 @@ export class UserService {
     }
   }
 
-  updateProfile(userId: string, userData: UserDomain): Observable<any> {
+  updateProfile(userId: string, userData: UserDomain): Observable<UserDomain> {
     return this.http
-      .get<UserDomain[]>(`${this.api_url}/users?email=${userData.email}`)
+      .get<AuthAPIResponse[]>(`${this.api_url}/users?email=${userData.email}`)
       .pipe(
         switchMap((users) => {
           const existsUser = users.find((user) => user.id !== userId);
           if (existsUser) {
             return throwError(() => 'Email already exists');
           }
-          return this.http.put(`${this.api_url}/users/${userId}`, userData);
+          return this.http.put<AuthAPIResponse>(`${this.api_url}/users/${userId}`, userData);
         }),
         catchError((error) => {
           console.error('Error', error.message);

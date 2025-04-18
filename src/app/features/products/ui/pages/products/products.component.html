@@ -37,7 +37,7 @@
             <button 
               mat-button
               (click)="changePage(page)"
-              [class.active]="(pagination()).currentPage === page"
+              [class.active]="pagination().currentPage === page"
             >
               {{ page }}
             </button>

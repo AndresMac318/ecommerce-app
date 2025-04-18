@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
-import { catchError, map, switchMap, throwError } from 'rxjs';
+import { catchError, map, Observable, switchMap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { UserDomain } from '../domain/userDomain.model';
 import { IAuthAPIService } from './authAPI.interface';
+import { AuthAPIResponse } from './models/authResponse.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,15 +19,15 @@ export class AuthService implements IAuthAPIService {
     private router: Router
   ) {}
 
-  signup(user: UserDomain) {
+  signup(user: UserDomain): Observable<UserDomain> {
     return this.http
-      .get<any[]>(`${this.api_url}/users?email=${user.email}`)
+      .get<AuthAPIResponse[]>(`${this.api_url}/users?email=${user.email}`)
       .pipe(
         switchMap((users) => {
           if (users.length > 0) {
             return throwError(() => 'UserDomain with this email already exits');
           }
-          return this.http.post<any>(`${this.api_url}/users`, user);
+          return this.http.post<AuthAPIResponse>(`${this.api_url}/users`, user);
         }),
         catchError((error) => {
           if (typeof error === 'string') {
@@ -37,9 +38,9 @@ export class AuthService implements IAuthAPIService {
       );
   }
 
-  login(email: string, password: string) {
+  login(email: string, password: string): Observable<UserDomain> {
     return this.http
-      .get<UserDomain[]>(`${this.api_url}/users?email=${email}`)
+      .get<AuthAPIResponse[]>(`${this.api_url}/users?email=${email}`)
       .pipe(
         map((users) => {
           const user = users[0];

@@ -4,11 +4,13 @@ import { ProductState } from './product.state';
 export const selectProductState =
   createFeatureSelector<ProductState>('product');
 
-/* products */
+/*
+antiguo
+// products
 export const selectAllProducts = createSelector(
   selectProductState,
   (state: ProductState) => state.products
-);
+); */
 
 export const selectProductsLoading = createSelector(
   selectProductState,
@@ -39,12 +41,12 @@ export const selectProductPagination = createSelector(
 );
 
 /* sale products */
-export const selectSaleProduct = createSelector(selectProductState, (state) =>
+/* export const selectSaleProduct = createSelector(selectProductState, (state) =>
   state.products?.filter((product) => product.sale)
-);
+); */
 
 /* select filtered products  */
-export const selectFilteredProducts = createSelector(
+/* export const selectFilteredProducts = createSelector(
   selectAllProducts,
   selectProductFilters,
   (products, filters) => {
@@ -58,10 +60,10 @@ export const selectFilteredProducts = createSelector(
       return matchesCategory && matchesPrice;
     });
   }
-);
+); */
 
 /* select pagination view */
-export const selectPaginatedProducts = createSelector(
+/* export const selectPaginatedProducts = createSelector(
   selectFilteredProducts,
   selectProductPagination,
   (products, pagination) => {
@@ -69,4 +71,19 @@ export const selectPaginatedProducts = createSelector(
     const end = start + pagination.pageSize;
     return products?.slice(start, end);
   }
+); */
+
+
+// Selector de caché por key
+export const selectCachedProducts = (cacheKey: string) => createSelector(
+  selectProductState,
+  (state) => state.cache[cacheKey] || {}
 );
+
+// Selector para datos actuales
+export const selectCurrentProducts = createSelector(
+  selectProductState,
+  (state) => state.currentPageData
+);
+
+//export const selectCacheKey =

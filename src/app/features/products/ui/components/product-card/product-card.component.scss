@@ -9,13 +9,10 @@
     width: 100%;
     max-width: 885px;
     margin: auto;
-    //min-height: 330px;
     padding: 20px;
     cursor: pointer;
     background-color: #fefefe;
     box-shadow: 2px 0px 2px 0px rgba(214, 214, 214, 1);
-    //-webkit-box-shadow: 6px 5px 5px 0px rgba(214,214,214,1);
-    //-moz-box-shadow: 6px 5px 5px 0px rgba(214,214,214,1);
     -webkit-box-shadow: 2px 0px 3px 0px rgb(214, 214, 214);
     -moz-box-shadow: 2px 0px 3px 0px rgb(214, 214, 214);
 
@@ -27,7 +24,6 @@
       //width: 30%;
     }
     &__favoritebtn {
-      //color: red;
       display: none;
       text-align: end;
       margin: auto 0 0 auto;
@@ -94,13 +90,6 @@
       }
     }
   }
-
-  /* :hover.card .card__favoritebtn {
-    display: block;
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0px);
-  } */
 
   @include mixins.desktop() {
     .card {

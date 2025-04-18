@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
-import { AuthService } from '../../../features/auth/infrastructure/auth.service';
+import { AuthService } from '../../../features/auth/infrastructure/authAPI.service';
 import { Router, RouterLink } from '@angular/router';
 import { SidenavService } from '../../../common/services/sidenav.service';
 import { DialogService } from '../../../common/services/dialog.service';

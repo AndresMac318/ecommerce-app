@@ -9,11 +9,11 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'ecommerce-app';
+  title = 'WebMarket';
 
   constructor(private translate: TranslateService) {
     this.translate.addLangs(['es', 'en']);
-    this.translate.setDefaultLang('es');
-    this.translate.use('es');
+    this.translate.setDefaultLang('en');
+    this.translate.use('en');
   }
 }

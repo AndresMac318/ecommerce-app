@@ -1,6 +1,6 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { IAuthAPIService } from '../authAPI.interface';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../authAPI.service';
 
 export const HTTP_AUTH_SERVICE = new InjectionToken<IAuthAPIService>(
   'AuthService'

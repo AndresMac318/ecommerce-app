@@ -1,10 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { IProductAPIService } from './productsAPI.interface';
-import { catchError, map, Observable, tap, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { ProductDomain } from '../domain/productDomain.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environments/environment.development';
-import { ProductAPIResponse } from './models/productAPI.model';
+import { ProductAPIResponse, ProductPaginatedAPIResponse } from './models/productAPI.model';
 import { ProductFilters } from '../+state/product.state';
 
 @Injectable({
@@ -30,7 +30,8 @@ export class ProductsAPIService implements IProductAPIService {
     page: number,
     pageSize: number,
     filters?: ProductFilters
-  ): Observable<any> {
+  ): Observable<{products: ProductDomain[], totalItems: number, cacheKey: string}> {
+
     let params = new HttpParams()
       .set('_page', page.toString())
       .set('_per_page', pageSize.toString());
@@ -44,19 +45,26 @@ export class ProductsAPIService implements IProductAPIService {
         .set('price_lte', filters.priceRange[1].toString());
     }
 
+    const cacheKey = `${page}|${pageSize}|${filters?.category}|${filters?.priceRange?.[0]}|${filters?.priceRange?.[1]}|`;
+
     return this.http
-      .get<Observable<any>>(`${this.api_url}/products`, {
+      .get<ProductPaginatedAPIResponse>(`${this.api_url}/products`, {
         params,
-        observe: 'response',
+        //observe: 'response',
       })
       .pipe(
-        tap((res) => {
-          console.log('request http', res);
-        }),
-        map((res: any) => ({
-          products: res.body.data as ProductDomain[],
-          totalCount: res.body.items,
-        }))
+        map((res) => ({
+          products: res.data,
+          totalItems: res.items,
+          cacheKey: cacheKey
+          /* products: res.body.data as ProductDomain[],
+          totalItems: res.body.items,
+          cacheKey: cacheKey */
+        })),
+        catchError(err => {
+          console.error('API error: ', err);
+          return throwError(() => new Error('Failed to load products'));
+        })
       );
   }
 

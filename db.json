@@ -3,7 +3,7 @@
     {
       "name": "Andres Macea",
       "email": "andres@gmail.com",
-      "phoneNumber": "3156661111",
+      "phoneNumber": "3156660001",
       "dateOfBirth": "2000-02-08T05:00:00.000Z",
       "address": "Calle 89 #80-67, Buga",
       "password": "123456",
@@ -49,6 +49,15 @@
       "phoneNumber": "3009998888",
       "dateOfBirth": "2005-10-12T05:00:00.000Z",
       "address": "CR 77 CLL 82, Yumbo",
+      "password": "123456"
+    },
+    {
+      "id": "ac42",
+      "name": "Alejandra Lopez",
+      "email": "alejandra@gmail.com",
+      "phoneNumber": "3009992211",
+      "dateOfBirth": "2004-07-14T05:00:00.000Z",
+      "address": "B/Americas Cll 11 CR 10 #11-22",
       "password": "123456"
     }
   ],

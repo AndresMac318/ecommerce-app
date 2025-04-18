@@ -8,7 +8,7 @@ import {
 import { Store } from '@ngrx/store';
 import { changePage, getProducts } from '../../../+state/product.actions';
 import {
-  selectAllProducts,
+  selectCurrentProducts,
   selectProductPagination,
   selectProductsLoading,
 } from '../../../+state/product.selectors';
@@ -64,7 +64,7 @@ export class ProductsComponent implements OnInit {
   private store = inject(Store);
 
   //public readonly products$ = this.store.select(selectAllProducts);
-  public readonly products = this.store.selectSignal(selectAllProducts);
+  public readonly products = this.store.selectSignal(selectCurrentProducts);
   public loading = this.store.selectSignal(selectProductsLoading);
   public pagination = this.store.selectSignal(selectProductPagination);
 
@@ -82,6 +82,7 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     const filterCollapse = localStorage.getItem(
       'appKit_ecommerce/filtersCollapse'
     );

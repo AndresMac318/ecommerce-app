@@ -12,7 +12,7 @@ export class AuthUseCaseService {
     @Inject(HTTP_AUTH_SERVICE) private authAPIService: IAuthAPIService
   ) {}
 
-  signup(user: any): Observable<UserDomain> {
+  signup(user: UserDomain): Observable<UserDomain> {
     return this.authAPIService.signup(user);
   }
 

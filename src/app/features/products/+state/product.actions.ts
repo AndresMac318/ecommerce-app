@@ -5,12 +5,12 @@ import { ProductFilters } from './product.state';
 /* products */
 export const getProducts = createAction(
   '[Product] Get Products',
-  props<{ page?: number; filters?: ProductFilters }>()
+  props<{ page?: number, filters?: ProductFilters }>()
 );
 
 export const getProductsSuccess = createAction(
   '[Product] Get Products Success',
-  props<{ products: ProductDomain[]; totalCount: number }>()
+  props<{ products: ProductDomain[], totalItems: number, cacheKey: string }>(),
 );
 
 export const getProductsFailure = createAction(
@@ -45,3 +45,23 @@ export const changePage = createAction(
   '[Product] Pagination ChangePage',
   props<{ page: number }>()
 );
+
+// new action
+export const loadCachedProducts = createAction(
+  '[Product] Get Cached Products',
+  props<{ cacheKey: string }>()
+)
+
+// ? background update
+export const backgroundUpdateRequest = createAction(
+  '[Product] Background Update Request',
+  props<{ cacheKey: string }>()
+)
+export const backgroundUpdateSuccess = createAction(
+  '[Product] Background Update Success',
+  props<{ cacheKey: string, products: ProductDomain[] }>()
+)
+export const backgroundUpdateFailure = createAction(
+  '[Product] Background Update Failure',
+  props<{ cacheKey: string, error: string }>()
+)

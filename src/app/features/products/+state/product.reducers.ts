@@ -2,8 +2,25 @@ import { createReducer, on } from '@ngrx/store';
 import * as ProductActions from './product.actions';
 import { ProductState } from './product.state';
 
-export const initialState: ProductState = {
+/* export const initialState: ProductState = {
   products: [],
+  loading: false,
+  error: null,
+  currentProduct: null,
+  filters: {
+    category: null,
+    priceRange: [10000, 5000000],
+  },
+  pagination: {
+    currentPage: 1,
+    pageSize: 10,
+    totalItems: 0,
+  },
+}; */
+
+export const initialState: ProductState = {
+  cache: {},
+  currentPageData: [],
   loading: false,
   error: null,
   currentProduct: null,
@@ -27,29 +44,39 @@ export const productReducer = createReducer(
       loading: true,
     })
   ),
+  // new
+  on(
+    ProductActions.loadCachedProducts,
+    (state, { cacheKey }): ProductState => ({
+      ...state,
+      loading: false,
+      currentPageData: state.cache[cacheKey].data,
+    })
+  ),
   on(
     ProductActions.getProductsSuccess,
-    (state, { products, totalCount }): ProductState => ({
+    (state, { products, totalItems, cacheKey }): ProductState => ({
       ...state,
-      products: [...products],
+      cache: {
+        ...state.cache,
+        [cacheKey]: {
+          data: products,
+          timestamp: Date.now()
+        }
+      },
+      currentPageData: products,
       loading: false,
       error: null,
-      currentProduct: null,
-      pagination: {
-        ...state.pagination,
-        totalItems: totalCount,
-      },
+      pagination: { ...state.pagination, totalItems: totalItems}
     })
   ),
   on(
     ProductActions.getProductsFailure,
     (state, { error }): ProductState => ({
       ...state,
-      //products: null,
+      currentPageData: [],
       loading: false,
       error,
-      // currentProduct: null,
-      // categories: []
     })
   ),
   on(
@@ -57,8 +84,7 @@ export const productReducer = createReducer(
     (state): ProductState => ({
       ...state,
       loading: true,
-      error: null,
-      currentProduct: null,
+      error: null
     })
   ),
   on(
@@ -74,29 +100,45 @@ export const productReducer = createReducer(
     ProductActions.getProductByIdFailure,
     (state, { error }): ProductState => ({
       ...state,
-      products: [],
       loading: false,
       error,
-      currentProduct: null,
+      currentPageData: [],
+    })
+  ),
+  // ? background update
+  on(
+    ProductActions.backgroundUpdateSuccess,
+    (state, { cacheKey, products }): ProductState => ({
+      ...state,
+      cache: {
+        ...state.cache,
+        [cacheKey]: {
+          data: products,
+          timestamp: Date.now()
+        }
+      },
+      currentPageData: (state.currentPageData === state.cache[cacheKey].data) ? products : state.currentPageData
     })
   ),
   on(
     ProductActions.applyFilters,
     (state, { filters }): ProductState => ({
       ...state,
+      cache: {}, // cache invalidation
       filters: { ...filters },
-      //products: [...state.products],
       pagination: {
         ...state.pagination,
-        currentPage: 1,
+        //currentPage: 1,
       },
     })
   ),
-  on(ProductActions.changePage, (state, { page }): ProductState => ({
-    ...state,
-    pagination: {
-      ...state.pagination,
-      currentPage: page,
-    },
-  }))
+  on(ProductActions.changePage, 
+    (state, { page }): ProductState => ({
+      ...state,
+      pagination: {
+        ...state.pagination,
+        currentPage: page,
+      },
+    })
+  ),
 );

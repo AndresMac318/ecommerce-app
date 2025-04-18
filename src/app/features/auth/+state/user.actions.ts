@@ -26,7 +26,7 @@ export const logoutSuccess = createAction('[Auth] Logout Success');
 
 export const signup = createAction(
   '[Auth] Signup',
-  props<{ userData: Omit<UserDomain, 'id' | 'role' | 'cart'> }>()
+  props<{ userData: UserDomain }>()
 );
 
 export const signupSuccess = createAction(

@@ -17,14 +17,15 @@ import { Router } from '@angular/router';
   template: `
     <div class="card" (click)="toDetail(product.id)">
       @let product = productData();
+   
       <picture>
         <img
           class="card__img"
           [src]="product.imageURL"
           [alt]="product.name"
-          height="250px"
         />
       </picture>
+  
       <div class="card__info">
         <h3 class="card__title">{{ product.name }}</h3>
         <p class="card__description">

@@ -64,5 +64,16 @@
             "text": "Buy know!",
             "description": "Description"
         }
+    },
+    "CART": {
+        "title": "Shopping Cart",
+        "item": {
+            "label": "Quantity",
+            "no_items": "There're not added products yet"
+        },
+        "details": {
+            "tax": "IVA 19%",
+            "total": "Total Value"
+        }
     }
 }

@@ -64,5 +64,16 @@
             "text": "Compra ahora!",
             "description": "Descripción"
         }
+    },
+    "CART": {
+        "title": "Carrito de compras",
+        "item": {
+            "label": "Cantidad",
+            "no_items": "No hay productos agregados aún"
+        },
+        "details": {
+            "tax": "IVA 19%",
+            "total": "Valor Total"
+        }
     }
 }

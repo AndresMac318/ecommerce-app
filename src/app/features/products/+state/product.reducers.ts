@@ -2,22 +2,6 @@ import { createReducer, on } from '@ngrx/store';
 import * as ProductActions from './product.actions';
 import { ProductState } from './product.state';
 
-/* export const initialState: ProductState = {
-  products: [],
-  loading: false,
-  error: null,
-  currentProduct: null,
-  filters: {
-    category: null,
-    priceRange: [10000, 5000000],
-  },
-  pagination: {
-    currentPage: 1,
-    pageSize: 10,
-    totalItems: 0,
-  },
-}; */
-
 export const initialState: ProductState = {
   cache: {},
   currentPageData: [],

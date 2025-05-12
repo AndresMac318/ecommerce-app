@@ -97,16 +97,6 @@ export class ProductsFiltersComponent implements OnInit {
       this.filterForm.controls['category'].setValue(filtersData.category);
       this.filterForm.controls['minPrice'].setValue(filtersData.priceRange[0]);
       this.filterForm.controls['maxPrice'].setValue(filtersData.priceRange[1]);
-      
-      /* const {category, minPrice, maxPrice} = this.filterForm.value;
-      this.store.dispatch(
-        applyFilters({
-          filters: {
-            category: category,
-            priceRange: [minPrice || 10000, maxPrice || 10000000],
-          },
-        })
-      ); */
     }
     this.filterForm.valueChanges
       .pipe(debounceTime(400), distinctUntilChanged())

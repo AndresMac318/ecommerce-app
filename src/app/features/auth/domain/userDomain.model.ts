@@ -1,5 +1,3 @@
-import { Cart } from '../../../common/interfaces/cart.inteface';
-
 export interface UserDomain {
   id: string;
   name: string;
@@ -9,5 +7,14 @@ export interface UserDomain {
   password?: string;
   role: 'ADMIN' | 'CUSTOMER';
   address: string;
-  cart?: Cart[] | [];
+  cart?: CartItem[] | [];
+}
+
+export interface CartItem {
+  productId: string;
+  quantity: number;
+  price: number;
+  sale_price?: number;
+  name: string;
+  imageURL: string;
 }

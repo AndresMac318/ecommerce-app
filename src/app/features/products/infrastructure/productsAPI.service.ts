@@ -57,9 +57,6 @@ export class ProductsAPIService implements IProductAPIService {
           products: res.data,
           totalItems: res.items,
           cacheKey: cacheKey
-          /* products: res.body.data as ProductDomain[],
-          totalItems: res.body.items,
-          cacheKey: cacheKey */
         })),
         catchError(err => {
           console.error('API error: ', err);

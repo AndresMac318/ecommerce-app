@@ -13,6 +13,11 @@ import { selectProductById } from '../../../+state/product.selectors';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslatePipe } from '@ngx-translate/core';
+import { addItemToCart } from '../../../../auth/+state/user.actions';
+import { CartItem } from '../../../../auth/domain/userDomain.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthUseCaseService } from '../../../../auth/application/auth-usecase.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-detail',
@@ -96,7 +101,7 @@ import { TranslatePipe } from '@ngx-translate/core';
                 <mat-icon>shopping_bag</mat-icon
                 >{{ 'MAIN_COMPONENTS.buttons.buy' | translate }}
               </button>
-              <button mat-raised-button>
+              <button (click)="addToCart()" mat-raised-button>
                 <mat-icon>add_shopping_cart</mat-icon
                 >{{ 'MAIN_COMPONENTS.buttons.add_cart' | translate }}
               </button>
@@ -118,7 +123,10 @@ export class ProductDetailComponent implements OnInit {
   @Input() id!: string;
 
   private store = inject(Store);
+  private _snackBar = inject(MatSnackBar);
   private location = inject(Location);
+  private authSvc = inject(AuthUseCaseService);
+  private router = inject(Router);
 
   isFavorite = signal(false);
 
@@ -135,5 +143,42 @@ export class ProductDetailComponent implements OnInit {
 
   goBack() {
     this.location.back();
+  }
+
+  addToCart(){
+
+    if(!this.authSvc.isLoggedIn()){
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
+    if(this.productDetail()){
+      
+      const cartItem: CartItem = {
+        productId: this.productDetail()!.id,      
+        quantity: 1,
+        price: this.productDetail()!.price,
+        name: this.productDetail()!.name,
+        imageURL: this.productDetail()!.imageURL
+      };
+
+      const storeUserStr = localStorage.getItem('user');
+
+      if (storeUserStr) {
+        const storeUser = JSON.parse(storeUserStr);
+        const alreadyInCart  = storeUser.cart.some((p:any) => p.productId === cartItem.productId);
+      
+        if (alreadyInCart) {
+          this._snackBar.open('Product already in cart!', 'Ok', {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+          });
+          return;
+        }
+      }
+
+      this.store.dispatch(addItemToCart({ item: cartItem }));
+    }
   }
 }

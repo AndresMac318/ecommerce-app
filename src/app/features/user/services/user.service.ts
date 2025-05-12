@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
-import { catchError, Observable, switchMap, throwError } from 'rxjs';
-import { UserDomain } from '../../auth/domain/userDomain.model';
+import { catchError, Observable, switchMap, tap, throwError } from 'rxjs';
+import { CartItem, UserDomain } from '../../auth/domain/userDomain.model';
 import { AuthAPIResponse } from '../../auth/infrastructure/models/authResponse.model';
 
 @Injectable({
@@ -38,5 +38,13 @@ export class UserService {
           return throwError(() => error);
         })
       );
+  }
+
+  getCart(userId: string): Observable<CartItem[]> {
+    return this.http.get<CartItem[]>(`${this.api_url}/users/${userId}/cart`);
+  }
+
+  updateCart(userId: string, cart: CartItem[]): Observable<void> {
+    return this.http.patch<void>(`${this.api_url}/users/${userId}`, { cart });
   }
 }

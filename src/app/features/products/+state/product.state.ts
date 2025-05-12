@@ -7,7 +7,7 @@ export interface ProductState {
       timestamp: number;
     }
   }
-  currentPageData: ProductDomain[]; // productos en vista actual
+  currentPageData: ProductDomain[];
   loading: boolean;
   error: string | null;
   currentProduct: ProductDomain | null; 

@@ -17,3 +17,31 @@ export const selectAuthError = createSelector(
   selectAuthState,
   (state: UserState) => state.error
 );
+
+// cart
+
+export const selectCartItems = createSelector(
+  selectAuthState,
+  (state) => state.user?.cart || []
+);
+
+export const selectCartItemsCount = createSelector(
+  selectCartItems,
+  (items) => items.length
+);
+
+/* export const selectCartItemsCount = createSelector(
+  selectCartItems,
+  (items) => items.reduce((total, item) => total + item.quantity, 0)
+); */
+
+export const selectCartTotal = createSelector(
+  selectCartItems,
+  (items) => items.reduce((total, item) => total + (item.price * item.quantity), 0)
+);
+
+export const selectCartItemById = (productId: string) => 
+  createSelector(
+    selectCartItems,
+    (items) => items.find(i => i.productId === productId)
+  );

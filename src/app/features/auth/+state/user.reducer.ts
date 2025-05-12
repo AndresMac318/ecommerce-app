@@ -37,6 +37,15 @@ export const userReducer = createReducer(
       error,
     })
   ),
+  on(
+    UserActions.loadAuthData,
+    (state, { user }): UserState => ({
+      ...state,
+      user,
+      loading: false,
+      error: null
+    })
+  ),
   //Logout
   on(
     UserActions.logout,
@@ -101,7 +110,65 @@ export const userReducer = createReducer(
       ...state,
       error,
     })
-  )
+  ),
+  // *************************   cart   **************************
+  // add item
+  on(
+    UserActions.addItemToCart,
+    (state, { item }): UserState => {
+      if (!state.user) return state;
+      
+      const existingItem = state.user.cart?.find( i => i.productId === item.productId);
+      
+      const newCart = ( existingItem ) 
+        ? state.user.cart?.map( i => i.productId === item.productId
+            ? { ...i, quantity: i.quantity + item.quantity } : i 
+        ) 
+        : [...( state.user.cart || []), item ];
+        
+        return {
+          ...state,
+          user: {
+            ...state.user,
+            cart: newCart
+          }
+        } 
+    }
+  ),
+  // delete item
+  on(UserActions.removeFromCart, (state, { productId }) => ({
+    ...state,
+    user: state.user ? {
+      ...state.user,
+      cart: state.user.cart?.filter(i => i.productId !== productId) || []
+    } : null
+  })),
+  // update quantity
+  on(UserActions.updateItemQuantity, (state, { productId, quantity }) => ({
+    ...state,
+    user: state.user ? {
+      ...state.user,
+      cart: state.user.cart?.map(i => 
+        i.productId === productId ? { ...i, quantity } : i
+      ) || []
+    } : null
+  })),
+  // clean cart
+  on(UserActions.clearCart, (state) => ({
+    ...state,
+    user: state.user ? {
+      ...state.user,
+      cart: []
+    } : null
+  })),
+  // Sync success
+  on(UserActions.cartOperationSuccess, (state, { cart }) => ({
+    ...state,
+    user: state.user ? { ...state.user, cart } : null
+  }))
+
+
+  
   /* on(AuthActions.changePassword, (state, { newPassword }) => ({
         ...state,
         loading: true,

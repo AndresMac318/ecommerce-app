@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
+  Signal,
   signal,
 } from '@angular/core';
 
@@ -25,6 +26,8 @@ import { map, Observable, startWith } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { OptionItem } from '../../../common/interfaces/optionItem.interface';
 import { ProductUseCaseService } from '../../../features/products/application/product-usecase.service';
+import { Store } from '@ngrx/store';
+import { selectCartItemsCount } from '../../../features/auth/+state/user.selectors';
 
 @Component({
   selector: 'app-header',
@@ -65,6 +68,7 @@ import { ProductUseCaseService } from '../../../features/products/application/pr
         <form class="form">
           <input
             class="form__input"
+            name="searchInput"
             placeholder="{{
               'MAIN_COMPONENTS.header.input_placeholder' | translate
             }}"
@@ -103,7 +107,7 @@ import { ProductUseCaseService } from '../../../features/products/application/pr
         class="example-icon"
         aria-label="Example icon-button with shopping_cart icon"
       >
-        <mat-icon matBadge="3" matBadgeSize="large" aria-hidden="shopping cart"
+        <mat-icon [matBadge]="numItemsCart" matBadgeSize="large" aria-hidden="shopping cart"
           >shopping_cart_checkout</mat-icon
         >
       </button>
@@ -131,12 +135,14 @@ import { ProductUseCaseService } from '../../../features/products/application/pr
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
+ 
   private isLoggedIn = signal(false);
   public products = signal([]);
 
   public searchInput = new FormControl('');
   public options: OptionItem[] = [];
   public filteredOptions!: Observable<OptionItem[]>;
+  public itemsCart: Signal<number>;
 
   constructor(
     public authSvc: AuthService,
@@ -144,8 +150,18 @@ export class HeaderComponent implements OnInit {
     private sidenavSvc: SidenavService,
     private router: Router,
     private translateSvc: TranslateService,
-    private dialogSvc: DialogService
-  ) {}
+    private dialogSvc: DialogService,
+    private store: Store
+  ) {
+    this.itemsCart = this.store.selectSignal(selectCartItemsCount);
+  }
+
+  get numItemsCart(){
+    if (this.authSvc.isLoggedIn() && this.itemsCart() > 0) {
+      return this.itemsCart();
+    }
+    return null;
+  }
 
   ngOnInit(): void {
     const logged = localStorage.getItem('isLoggedIn');
@@ -196,7 +212,7 @@ export class HeaderComponent implements OnInit {
 
   goToCart() {
     if (this.isLoggedIn()) {
-      return console.log('Redirect to cart !');
+      this.router.navigateByUrl('shopping-cart');
     } else {
       this.router.navigateByUrl('auth/login');
     }

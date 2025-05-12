@@ -30,7 +30,7 @@ export class ProductEffects {
   private productsSvc = inject(ProductUseCaseService);
 
   /* 
-  En el effect, se manejaría la lógica de verificación de caché. Si los datos están en caché, se despacha una acción para cargarlos desde el store. Si no, se procede a la solicitud HTTP.
+  In the effect, the logic of verification cache are management. If the data is in cache an action will be dispatch, if exists in localstorage the data will be charged from here, else the http query is made
   */
   getProducts$ = createEffect(() => {
     return this.actions$.pipe(
@@ -46,9 +46,6 @@ export class ProductEffects {
       switchMap(([, pagination, filters]) => {
         const cacheKey = generateCacheKey(pagination, filters); //return cacheKey
         const cachedData = this.store.select(selectCachedProducts(cacheKey));
-        
-        
-        //console.log('pagination in effect', {pagination}); // vuelta 1: totalitems: 0
         
         return cachedData.pipe(
           take(1),
@@ -104,28 +101,6 @@ export class ProductEffects {
     )
   ); */
   
-  /* 
-    this.productsSvc.getProductsPaginated(
-      pagination.currentPage,
-      pagination.pageSize,
-      filters
-    )
-    .pipe(
-      tap(() => {
-        localStorage.setItem(
-          'appKit_ecommerce/filtersData',
-          JSON.stringify(filters)
-        );
-      }),
-      map(({ products, totalCount }) =>
-        ProductsActions.getProductsSuccess({ products, totalCount })
-      ),
-      catchError((error) =>
-        of(ProductsActions.getProductsFailure({ error }))
-      )
-    ) 
-  */
-
   getProductsFailure$ = createEffect(
     () => {
       return this.actions$.pipe(

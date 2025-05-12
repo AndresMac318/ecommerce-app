@@ -2,15 +2,20 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
+import { catchError, debounce, debounceTime, EMPTY, map, mergeMap, of, switchMap, tap, withLatestFrom } from 'rxjs';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as AuthActions from './user.actions';
 
 import Swal from 'sweetalert2';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { UserService } from '../../user/services/user.service';
 import { AuthUseCaseService } from '../application/auth-usecase.service';
+import { Store } from '@ngrx/store';
+import { selectUser } from './user.selectors';
+import { UserDomain } from '../domain/userDomain.model';
 
 @Injectable()
 export class AuthEffects {
@@ -19,6 +24,9 @@ export class AuthEffects {
   private userSvc = inject(UserService);
   private router = inject(Router);
   private location = inject(Location);
+  private store = inject(Store);
+
+  private _snackBar = inject(MatSnackBar);
 
   login$ = createEffect(() => {
     return this.actions$.pipe(
@@ -169,4 +177,77 @@ export class AuthEffects {
     },
     { dispatch: false }
   );
+
+  // cart
+
+  saveCart$ = createEffect(() => {
+    return  this.actions$.pipe(
+      ofType(
+        AuthActions.addItemToCart,
+        AuthActions.removeFromCart,
+        AuthActions.updateItemQuantity,
+        AuthActions.clearCart
+      ),
+      debounceTime(500),
+      withLatestFrom(
+        this.store.select(selectUser)
+      ),
+      switchMap(([action, user]) => {
+        if(!user) return EMPTY;
+
+        if(action.type === AuthActions.addItemToCart.type){
+          const productId = action.item.productId;
+
+          const userStore = localStorage.getItem('user');
+          if (userStore) {
+            const storedUser = JSON.parse(userStore);
+            const existingCart: any[] = storedUser.cart || [];
+  
+            const alreadyInCart = existingCart.some((item) => item.productId === productId);
+  
+            if (alreadyInCart) {
+              return EMPTY;
+            }
+            this._snackBar.open('Product added to cart!', 'Ok', {
+              horizontalPosition: 'right',
+              verticalPosition: 'top',
+              duration: 3000,
+            });
+
+          }
+        }
+
+        //continue
+        return this.userSvc.updateCart(user.id, user.cart!)
+          .pipe(
+            
+            tap(() => {
+              let userStore = localStorage.getItem('user');
+              if(!userStore) return;
+    
+              let newUserStore = JSON.parse(userStore);          
+              let newUser = {...newUserStore, cart: user.cart};
+              localStorage.setItem('user', JSON.stringify(newUser));
+            }),
+            map(() => AuthActions.cartOperationSuccess({ cart: user.cart! })),
+            catchError(error => of(AuthActions.cartOperationFailure({ error })))
+          );
+      })
+    )
+  });
+
+  loadCart$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(AuthActions.loadCart),
+        switchMap(({ userId }) => this.userSvc.getCart(userId)
+          .pipe(
+            map(cart => AuthActions.cartOperationSuccess({ cart })),
+            catchError(error => of(AuthActions.cartOperationFailure({ error })))
+          )
+        )
+      );
+    }
+  );
+
 }

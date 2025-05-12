@@ -1,0 +1,105 @@
+@use '../../../../../public/styles/mixins' as mixins;
+
+:host {
+  display: block;
+  .cart {
+    padding: 30px;
+    max-width: 800px;
+    margin: 0 auto;
+    &__card {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 750px;
+      margin: auto;
+      padding: 20px;
+      cursor: pointer;
+      background-color: #fefefe;
+      box-shadow: 2px 0px 2px 0px rgba(214, 214, 214, 1);
+      -webkit-box-shadow: 2px 0px 3px 0px rgb(214, 214, 214);
+      -moz-box-shadow: 2px 0px 3px 0px rgb(214, 214, 214);
+      
+      //animation: fadeIn 0.3s ease-in forwards;
+
+    }
+    &__title {
+      margin: 0 0 1rem 0;
+    }
+    &__img {
+      height: 200px;
+      width: 100px;
+      object-fit: contain;
+      margin: 0 auto 20px;
+      //width: 30%;
+    }
+    &__info {
+      display: flex;
+      flex-flow: column nowrap;
+      width: 100%;
+      padding: 0 0 0 16px;
+      position: relative;
+    }
+    &__price {
+      color: #00a650;
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin: 0 0 10px 0;
+      &--dto {
+        color: gray;
+        font-size: 1rem;
+        text-decoration: line-through;
+      }
+    }
+    &__containerdata {
+      display: flex;
+      flex-flow: row wrap;
+      align-content: center;
+    }
+
+    &__details {
+      margin: 30px 0;
+      padding: 20px;
+      background-color: #fefefe;
+      box-shadow: 2px 0px 2px 0px rgba(214, 214, 214, 1);
+      -webkit-box-shadow: 2px 0px 3px 0px rgb(214, 214, 214);
+      -moz-box-shadow: 2px 0px 3px 0px rgb(214, 214, 214);
+      max-width: 750px;
+      margin: 30px auto;
+    }
+    &__btn {
+      display: block;
+      text-align: center;
+      width: 100%;
+      max-width: 300px;
+      margin: 10px auto;
+    }
+    &__btndelete {
+      color: #005CBB;
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
+    }
+  }
+
+  mat-form-field {
+    width: 160px;
+  }
+
+  @include mixins.tablet(){
+    .cart {
+      &__img {
+        width: 120px;
+      }
+      &__info {
+        padding: 0 0 0 2rem;
+      }
+      &__title {
+        margin: 0 0 1.5rem 0;
+      }
+    }
+  }
+
+  
+  
+}

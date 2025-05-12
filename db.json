@@ -8,7 +8,22 @@
       "address": "Calle 89 #80-67, Buga",
       "password": "123456",
       "role": "ADMIN",
-      "cart": [],
+      "cart": [
+        {
+          "productId": "1",
+          "quantity": 2,
+          "price": 129999.99,
+          "name": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+          "imageURL": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
+        },
+        {
+          "productId": "2",
+          "quantity": 1,
+          "price": 345900,
+          "name": "Mens Casual Premium Slim Fit T-Shirts ",
+          "imageURL": "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg"
+        }
+      ],
       "id": "23e7"
     },
     {

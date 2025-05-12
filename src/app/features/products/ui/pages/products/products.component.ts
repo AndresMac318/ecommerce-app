@@ -45,16 +45,16 @@ import { TranslatePipe } from '@ngx-translate/core';
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [
-        style({ opacity: 0, transform: 'translateX(-3px)' }),
+        style({ opacity: 0, transform: 'translateX(-206px)' }),
         animate(
-          '300ms ease-out',
+          '300ms ease-in-out',
           style({ opacity: 1, transform: 'translateX(0)' })
         ),
       ]),
       transition(':leave', [
         animate(
-          '300ms ease-in',
-          style({ opacity: 0, transform: 'translateX(-3px)' })
+          '300ms ease-in-out',
+          style({ opacity: 0, transform: 'translateX(-206px)' })
         ),
       ]),
     ]),
@@ -63,7 +63,6 @@ import { TranslatePipe } from '@ngx-translate/core';
 export class ProductsComponent implements OnInit {
   private store = inject(Store);
 
-  //public readonly products$ = this.store.select(selectAllProducts);
   public readonly products = this.store.selectSignal(selectCurrentProducts);
   public loading = this.store.selectSignal(selectProductsLoading);
   public pagination = this.store.selectSignal(selectProductPagination);

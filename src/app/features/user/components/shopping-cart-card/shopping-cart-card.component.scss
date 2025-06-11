@@ -1,4 +1,5 @@
 @use '../../../../../../public/styles/mixins' as mixins;
+@use '../../../../../../public/styles/variables' as variables;
 
 :host {
   display: block;
@@ -15,13 +16,10 @@
       margin: auto;
       padding: 20px;
       cursor: pointer;
-      background-color: #fefefe;
+      background-color: variables.color(white-3);
       box-shadow: 2px 0px 2px 0px rgba(214, 214, 214, 1);
       -webkit-box-shadow: 2px 0px 3px 0px rgb(214, 214, 214);
       -moz-box-shadow: 2px 0px 3px 0px rgb(214, 214, 214);
-      
-      //animation: fadeIn 0.3s ease-in forwards;
-
     }
     &__title {
       margin: 0 0 1rem 0;
@@ -31,7 +29,6 @@
       width: 100px;
       object-fit: contain;
       margin: 0 auto 20px;
-      //width: 30%;
     }
     &__info {
       display: flex;
@@ -41,7 +38,7 @@
       position: relative;
     }
     &__price {
-      color: #00a650;
+      color: variables.color(green-2);
       font-size: 1.3rem;
       font-weight: 500;
       margin: 0 0 10px 0;
@@ -52,7 +49,7 @@
       }
     }
     &__btndelete {
-      color: #005CBB;
+      color: variables.color(blue-2);
       position: absolute;
       bottom: 0px;
       right: 0px;
@@ -70,7 +67,7 @@
     width: 160px;
   }
 
-  @include mixins.tablet(){
+  @include mixins.tablet() {
     .cart {
       &__img {
         width: 120px;

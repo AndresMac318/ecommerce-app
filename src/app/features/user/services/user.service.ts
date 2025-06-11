@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
-import { catchError, Observable, switchMap, tap, throwError } from 'rxjs';
-import { CartItem, UserDomain } from '../../auth/domain/userDomain.model';
+import { catchError, Observable, switchMap, throwError } from 'rxjs';
+import { UserDomain } from '../../auth/domain/userDomain.model';
 import { AuthAPIResponse } from '../../auth/infrastructure/models/authResponse.model';
+import { ProductItem } from '../../buys/domain/BuyDomain.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +32,10 @@ export class UserService {
           if (existsUser) {
             return throwError(() => 'Email already exists');
           }
-          return this.http.put<AuthAPIResponse>(`${this.api_url}/users/${userId}`, userData);
+          return this.http.put<AuthAPIResponse>(
+            `${this.api_url}/users/${userId}`,
+            userData
+          );
         }),
         catchError((error) => {
           console.error('Error', error.message);
@@ -40,11 +44,11 @@ export class UserService {
       );
   }
 
-  getCart(userId: string): Observable<CartItem[]> {
-    return this.http.get<CartItem[]>(`${this.api_url}/users/${userId}/cart`);
+  getCart(userId: string): Observable<ProductItem[]> {
+    return this.http.get<ProductItem[]>(`${this.api_url}/users/${userId}/cart`);
   }
 
-  updateCart(userId: string, cart: CartItem[]): Observable<void> {
+  updateCart(userId: string, cart: ProductItem[]): Observable<void> {
     return this.http.patch<void>(`${this.api_url}/users/${userId}`, { cart });
   }
 }

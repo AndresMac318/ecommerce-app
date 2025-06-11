@@ -6,7 +6,6 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatDivider } from '@angular/material/divider';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSliderModule } from '@angular/material/slider';
 import { Store } from '@ngrx/store';
@@ -20,45 +19,54 @@ import { TranslatePipe } from '@ngx-translate/core';
     ReactiveFormsModule,
     MatRadioModule,
     MatSliderModule,
-    MatDivider,
     TranslatePipe,
     CurrencyPipe,
   ],
   template: `
     <div class="filters">
       <form [formGroup]="filterForm">
-        <h4 class="filters__title">
-          {{ 'PRODUCTS.filter_menu.title1' | translate }}
-        </h4>
-        <mat-radio-group
-          aria-labelledby="example-radio-group-label"
-          class="filters__radiogroup"
-          formControlName="category"
-        >
-          @for (category of categories; track $index) {
-            <mat-radio-button
-              class="filters__categoryitem"
-              [value]="category"
-              >{{ category }}</mat-radio-button
-            >
-          }
-        </mat-radio-group>
+        <div class="filters__group">
+          <h4 class="filters__title">
+            {{ 'PRODUCTS.filter_menu.title1' | translate }}
+          </h4>
+          <mat-radio-group
+            aria-labelledby="example-radio-group-label"
+            class="filters__radiogroup"
+            formControlName="category"
+          >
+            @for (category of categories; track $index) {
+              <mat-radio-button
+                class="filters__categoryitem"
+                [value]="category"
+                >{{ category }}</mat-radio-button
+              >
+            }
+          </mat-radio-group>
+        </div>
 
-        <mat-divider></mat-divider>
+        <div class="filters__group">
+          <h4 class="filters__title">
+            {{ 'PRODUCTS.filter_menu.title2' | translate }}
+          </h4>
 
-        <h4 class="filters__title">
-          {{ 'PRODUCTS.filter_menu.title2' | translate }}
-        </h4>
+          <span style="margin: 0 10px 0 0;"
+            >{{ minPrice | currency: 'COP' : '$' : '1.0-0' }} to
+            {{ maxPrice | currency: 'COP' : '$' : '1.0-0' }}</span
+          >
 
-        <span style="margin: 0 10px 0 0;"
-          >{{ minPrice | currency: 'COP' : '$' : '1.0-0' }} to
-          {{ maxPrice | currency: 'COP' : '$' : '1.0-0' }}</span
-        >
-
-        <mat-slider min="1000" max="10000000" step="1000">
-          <input formControlName="minPrice" value="1000" matSliderStartThumb />
-          <input formControlName="maxPrice" value="500000" matSliderEndThumb />
-        </mat-slider>
+          <mat-slider min="10000" max="10000000" step="10000">
+            <input
+              formControlName="minPrice"
+              value="1000"
+              matSliderStartThumb
+            />
+            <input
+              formControlName="maxPrice"
+              value="500000"
+              matSliderEndThumb
+            />
+          </mat-slider>
+        </div>
       </form>
     </div>
   `,
@@ -70,13 +78,13 @@ export class ProductsFiltersComponent implements OnInit {
 
   public filterForm = new FormGroup({
     category: new FormControl(''),
-    minPrice: new FormControl(10000),
-    maxPrice: new FormControl(5000000),
+    minPrice: new FormControl<number>(10000),
+    maxPrice: new FormControl<number>(5000000),
   });
 
   public categories = [
-    "jewelery",
-    "electronics",
+    'jewelery',
+    'electronics',
     "men's clothing",
     "women's clothing",
   ];
@@ -101,7 +109,6 @@ export class ProductsFiltersComponent implements OnInit {
     this.filterForm.valueChanges
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe(({ category, minPrice, maxPrice }) => {
-
         this.store.dispatch(
           applyFilters({
             filters: {

@@ -4,7 +4,10 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 import { ProductDomain } from '../domain/productDomain.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environments/environment.development';
-import { ProductAPIResponse, ProductPaginatedAPIResponse } from './models/productAPI.model';
+import {
+  ProductAPIResponse,
+  ProductPaginatedAPIResponse,
+} from './models/productAPI.model';
 import { ProductFilters } from '../+state/product.state';
 
 @Injectable({
@@ -30,8 +33,11 @@ export class ProductsAPIService implements IProductAPIService {
     page: number,
     pageSize: number,
     filters?: ProductFilters
-  ): Observable<{products: ProductDomain[], totalItems: number, cacheKey: string}> {
-
+  ): Observable<{
+    products: ProductDomain[];
+    totalItems: number;
+    cacheKey: string;
+  }> {
     let params = new HttpParams()
       .set('_page', page.toString())
       .set('_per_page', pageSize.toString());
@@ -56,9 +62,9 @@ export class ProductsAPIService implements IProductAPIService {
         map((res) => ({
           products: res.data,
           totalItems: res.items,
-          cacheKey: cacheKey
+          cacheKey: cacheKey,
         })),
-        catchError(err => {
+        catchError((err) => {
           console.error('API error: ', err);
           return throwError(() => new Error('Failed to load products'));
         })

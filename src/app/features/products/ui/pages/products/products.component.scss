@@ -17,7 +17,7 @@
       margin: 0 0 8px;
     }
     &__title {
-      margin: 0;
+      margin: 0 0 1rem 0;
     }
   }
 
@@ -31,7 +31,6 @@
       display: flex;
       flex-flow: row nowrap;
       justify-content: center;
-      max-width: 1440px;
       margin: auto;
       position: relative;
     }
@@ -42,14 +41,14 @@
       top: 31px;
       height: fit-content;
       align-self: start;
+      margin: 0 1rem 0 0;
       &__categoryitem {
         display: block;
       }
     }
     .productslist {
-      width: fit-content;
+      max-width: 885px;
       flex-flow: row nowrap;
-      margin: 0 0 0 30px;
       &__empty {
         min-width: 472px;
       }
@@ -67,9 +66,10 @@
   @include mixins.desktop-xl() {
     .products {
       padding: 40px 60px;
+      max-width: 885px;
     }
     .filters {
-      top: 61px;
+      top: 41px;
     }
     .productslist {
       &__empty {

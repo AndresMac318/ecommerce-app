@@ -13,7 +13,7 @@
 }
 
 /* body {
-    background-color: antiquewhite;
+    min-width: 400px;
 } */
 
 textarea {
@@ -50,6 +50,10 @@ textarea {
 .fadeIn {
     opacity: 0;
     animation: fadeIn 0.3s ease-in forwards;
+}
+
+.w100 {
+    width: 100%;
 }
 
 @keyframes fadeIn {

@@ -1,13 +1,14 @@
 @use '../../../../../public/styles/mixins' as mixins;
+@use '../../../../../public/styles/variables' as variables;
 
 :host {
   display: block;
   .mat-toolbar {
     background: #d7e3ff;
-    color: #005cbb;
+    color: variables.color(blue-2);
   }
   mat-icon {
-    color: #005cbb;
+    color: variables.color(blue-2);
   }
 
   .navbar {
@@ -21,32 +22,11 @@
     .navbar {
       &__title {
         display: block;
-        color: #005cbb;
+        color: variables.color(blue-2);
       }
     }
   }
 }
-
-/* .controlform {
-  flex: 1 1 auto;
-  
-  &__input {
-    background-color: #fff;
-    width: 50vw;
-    margin: 0 0 0 20px;
-    height: 32px;
-    border-radius: 8px;
-    padding: 0 10px;
-    border: 1px solid #ccc; 
-
-    &:focus {
-      outline: none;
-      border-color: #005cbb;
-      box-shadow: rgb(1, 118, 211) 0px 0px 3px 0px;
-    }
-  }
-
-} */
 
 .formcontainer {
   flex: 1 1 auto;
@@ -57,66 +37,15 @@
   flex-flow: row;
   justify-content: center;
   &__input {
-    //background-color: #fff;
     height: 40px;
     width: 50vw;
     border-radius: 6px;
     padding: 0 10px;
     border: none;
-    //margin: 0 0 0 20px;
     &:focus {
       outline: none;
-      border-color: #005cbb;
+      border-color: variables.color(blue-2);
       box-shadow: rgb(1, 118, 211) 0px 0px 3px 0px;
     }
   }
 }
-
-/* .mat-mdc-form-field {
-  width: 50vw;
-  height: 64px;
-  margin-top: 3px;
-    background: #fff;
-    background-color: #fff;
-  padding: 0;
-  // background-color: #fff;
-  //height: 32px;
-  //max-height: min-content;
-  &:focus {
-    outline: none;
-
-  }
-}
-
-.mat-mdc-form-field-infix {
-  padding: 0;
-  background-color: #fff;
-}
-
-:host ::ng-deep .mat-mdc-form-field-subscript-wrapper .mat-mdc-form-field-bottom-align {
-  display: none;
-} */
-
-/* .mat-mdc-autocomplete-panel {
-  background-color: #fff;
-  background: #fff;
-  width: 100%;
-  max-height: 256px;
-  //visibility: hidden;
-  transform-origin: center top;
-  overflow: auto;
-  padding: 8px 0;
-  box-sizing: border-box;
-  position: static;
-  border-radius: var(--mat-autocomplete-container-shape, var(--mat-sys-corner-extra-small));
-  box-shadow: var(--mat-autocomplete-container-elevation-shadow, 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12));
-  background-color: var(--mat-autocomplete-background-color, var(--mat-sys-surface-container));
-} */
-
-/* .mat-mdc-text-field-wrapper .mdc-text-field .mdc-text-field--outlined .mdc-text-field--no-label {
-  background-color: #fff;
-} */
-/* 
-datalist {
-  background-color: #fff;
-} */

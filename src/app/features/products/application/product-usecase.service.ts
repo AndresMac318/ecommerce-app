@@ -19,7 +19,11 @@ export class ProductUseCaseService {
     page: number,
     pageSize: number,
     filters?: ProductFilters
-  ): Observable<{products: ProductDomain[], totalItems: number, cacheKey: string}> {
+  ): Observable<{
+    products: ProductDomain[];
+    totalItems: number;
+    cacheKey: string;
+  }> {
     return this.productAPIService.getProductsPaginated(page, pageSize, filters);
   }
 

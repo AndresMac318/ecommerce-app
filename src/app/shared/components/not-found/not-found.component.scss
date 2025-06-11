@@ -1,28 +1,30 @@
 :host {
   display: block;
+
+  .not-found-card {
+    margin: 10rem auto;
+    text-align: center;
+    padding: 2rem;
+    border-radius: 16px;
+    width: 320px;
+
+    .error-code {
+      font-size: 5rem;
+      font-weight: bold;
+      color: #f44336;
+      margin: 0;
+    }
+
+    .error-message {
+      font-size: 1.2rem;
+      margin: 1rem 0;
+      color: #757575;
+    }
+
+    button {
+      margin-top: 1rem;
+    }
+  }
 }
 
-.not-found-card {
-  max-width: 400px;
-  margin: 100px auto;
-  text-align: center;
-  padding: 2rem;
-  border-radius: 16px;
 
-  .error-code {
-    font-size: 5rem;
-    font-weight: bold;
-    color: #f44336;
-    margin: 0;
-  }
-
-  .error-message {
-    font-size: 1.2rem;
-    margin: 1rem 0;
-    color: #757575;
-  }
-
-  button {
-    margin-top: 1rem;
-  }
-}

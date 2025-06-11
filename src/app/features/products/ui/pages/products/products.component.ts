@@ -73,7 +73,7 @@ export class ProductsComponent implements OnInit {
     this.store.dispatch(changePage({ page }));
   }
 
-  public getPages(pagination: any) {
+  public getPages(pagination: { totalItems: number; pageSize: number }) {
     return Array.from(
       { length: Math.ceil(pagination.totalItems / pagination.pageSize) },
       (_, i) => i + 1
@@ -81,7 +81,6 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     const filterCollapse = localStorage.getItem(
       'appKit_ecommerce/filtersCollapse'
     );

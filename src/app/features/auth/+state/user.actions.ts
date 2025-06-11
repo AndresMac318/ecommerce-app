@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { CartItem, UserDomain } from '../domain/userDomain.model';
+import { UserDomain } from '../domain/userDomain.model';
+import { ProductItem } from '../../buys/domain/BuyDomain.model';
 
 // Login
 
@@ -25,7 +26,7 @@ export const logoutSuccess = createAction('[Auth] Logout Success');
 export const loadAuthData = createAction(
   '[Auth] Load Data',
   props<{ user: UserDomain }>()
-)
+);
 
 // Sign-up
 
@@ -64,7 +65,7 @@ export const updateProfileFailure = createAction(
 // ******************* Cart  **************************
 export const addItemToCart = createAction(
   '[Cart] Add Product To Cart',
-  props<{ item: CartItem }>()
+  props<{ item: ProductItem }>()
 );
 
 export const removeFromCart = createAction(
@@ -74,7 +75,7 @@ export const removeFromCart = createAction(
 
 export const updateItemQuantity = createAction(
   '[Cart] Update Cart Item Quantity',
-  props<{ productId: string, quantity: number }>()
+  props<{ productId: string; quantity: number }>()
 );
 
 export const clearCart = createAction(
@@ -96,26 +97,10 @@ export const saveCart = createAction(
 // server responses
 export const cartOperationSuccess = createAction(
   '[Cart] Card Operation Success',
-  props<{ cart: CartItem[] }>()
+  props<{ cart: ProductItem[] }>()
 );
 
 export const cartOperationFailure = createAction(
   '[Cart] Card Operation Failure',
   props<{ error: string }>()
 );
-
-
-/* export const changePassword = createAction(
-    '[User] Change Password',
-    props<{ userId: string; updateUserData: any }>()
-);
-
-export const changePasswordSuccess = createAction(
-    '[User] Change Password Success',
-    props<{ user: any }>()
-);
-
-export const changePasswordFailure = createAction(
-    '[User] Change Password Failure',
-    props<{ error: any }>()
-); */

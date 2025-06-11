@@ -9,9 +9,9 @@ import { RouterLink, RouterModule } from '@angular/router';
   template: `
     <mat-card class="not-found-card">
       <h1 class="error-code">404</h1>
-      <p class="error-message">Página no encontrada</p>
+      <p class="error-message">Page not found</p>
       <button mat-raised-button color="primary" routerLink="/auth/login">
-        Volver al Inicio
+        Go to home
       </button>
     </mat-card>
   `,

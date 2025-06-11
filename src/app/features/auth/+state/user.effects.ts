@@ -2,7 +2,17 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { catchError, debounce, debounceTime, EMPTY, map, mergeMap, of, switchMap, tap, withLatestFrom } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  EMPTY,
+  map,
+  mergeMap,
+  of,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as AuthActions from './user.actions';
@@ -15,17 +25,17 @@ import { UserService } from '../../user/services/user.service';
 import { AuthUseCaseService } from '../application/auth-usecase.service';
 import { Store } from '@ngrx/store';
 import { selectUser } from './user.selectors';
-import { UserDomain } from '../domain/userDomain.model';
+import { ProductItem } from '../../buys/domain/BuyDomain.model';
 
 @Injectable()
 export class AuthEffects {
   private actions$ = inject(Actions);
-  private authSvc = inject(AuthUseCaseService);
-  private userSvc = inject(UserService);
   private router = inject(Router);
   private location = inject(Location);
   private store = inject(Store);
 
+  private authSvc = inject(AuthUseCaseService);
+  private userSvc = inject(UserService);
   private _snackBar = inject(MatSnackBar);
 
   login$ = createEffect(() => {
@@ -181,7 +191,7 @@ export class AuthEffects {
   // cart
 
   saveCart$ = createEffect(() => {
-    return  this.actions$.pipe(
+    return this.actions$.pipe(
       ofType(
         AuthActions.addItemToCart,
         AuthActions.removeFromCart,
@@ -189,22 +199,22 @@ export class AuthEffects {
         AuthActions.clearCart
       ),
       debounceTime(500),
-      withLatestFrom(
-        this.store.select(selectUser)
-      ),
+      withLatestFrom(this.store.select(selectUser)),
       switchMap(([action, user]) => {
-        if(!user) return EMPTY;
+        if (!user) return EMPTY;
 
-        if(action.type === AuthActions.addItemToCart.type){
-          const productId = action.item.productId;
-
+        if (action.type === AuthActions.addItemToCart.type) {
+          const productId = action.item.id;
           const userStore = localStorage.getItem('user');
+
           if (userStore) {
             const storedUser = JSON.parse(userStore);
-            const existingCart: any[] = storedUser.cart || [];
-  
-            const alreadyInCart = existingCart.some((item) => item.productId === productId);
-  
+            const existingCart: ProductItem[] = storedUser.cart || [];
+
+            const alreadyInCart = existingCart.some(
+              (item) => item.id === productId
+            );
+
             if (alreadyInCart) {
               return EMPTY;
             }
@@ -213,41 +223,35 @@ export class AuthEffects {
               verticalPosition: 'top',
               duration: 3000,
             });
-
           }
         }
 
         //continue
-        return this.userSvc.updateCart(user.id, user.cart!)
-          .pipe(
-            
-            tap(() => {
-              let userStore = localStorage.getItem('user');
-              if(!userStore) return;
-    
-              let newUserStore = JSON.parse(userStore);          
-              let newUser = {...newUserStore, cart: user.cart};
-              localStorage.setItem('user', JSON.stringify(newUser));
-            }),
-            map(() => AuthActions.cartOperationSuccess({ cart: user.cart! })),
-            catchError(error => of(AuthActions.cartOperationFailure({ error })))
-          );
+        return this.userSvc.updateCart(user.id, user.cart!).pipe(
+          tap(() => {
+            const userStore = localStorage.getItem('user');
+            if (!userStore) return;
+
+            const newUserStore = JSON.parse(userStore);
+            const newUser = { ...newUserStore, cart: user.cart };
+            localStorage.setItem('user', JSON.stringify(newUser));
+          }),
+          map(() => AuthActions.cartOperationSuccess({ cart: user.cart! })),
+          catchError((error) => of(AuthActions.cartOperationFailure({ error })))
+        );
       })
-    )
+    );
   });
 
-  loadCart$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(AuthActions.loadCart),
-        switchMap(({ userId }) => this.userSvc.getCart(userId)
-          .pipe(
-            map(cart => AuthActions.cartOperationSuccess({ cart })),
-            catchError(error => of(AuthActions.cartOperationFailure({ error })))
-          )
+  loadCart$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.loadCart),
+      switchMap(({ userId }) =>
+        this.userSvc.getCart(userId).pipe(
+          map((cart) => AuthActions.cartOperationSuccess({ cart })),
+          catchError((error) => of(AuthActions.cartOperationFailure({ error })))
         )
-      );
-    }
-  );
-
+      )
+    );
+  });
 }

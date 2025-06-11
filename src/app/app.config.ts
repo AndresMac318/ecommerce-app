@@ -5,7 +5,6 @@ import {
   isDevMode,
   LOCALE_ID,
   APP_INITIALIZER,
-  provideAppInitializer,
 } from '@angular/core';
 import {
   provideRouter,
@@ -32,6 +31,9 @@ import localeEsCo from '@angular/common/locales/es-CO';
 import { AUTH_API_PROVIDER } from './features/auth/infrastructure/providers/authAPI.provider';
 import { userReducer } from './features/auth/+state/user.reducer';
 import { initialStateAuth } from './common/utils/initializeAuth';
+import { BUY_API_PROVIDER } from './features/buys/infrastructure/providers/buyAPI.provider';
+import { buyReducer } from './features/buys/+state/buy.reducers';
+import { BuyEffect } from './features/buys/+state/buy.effects';
 
 registerLocaleData(localeEsCo);
 
@@ -41,8 +43,12 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withViewTransitions(), withComponentInputBinding()),
     provideHttpClient(withFetch()),
     provideAnimationsAsync(),
-    provideStore({ user: userReducer, product: productReducer }),
-    provideEffects([AuthEffects, ProductEffects]),
+    provideStore({
+      user: userReducer,
+      product: productReducer,
+      buy: buyReducer,
+    }),
+    provideEffects([AuthEffects, ProductEffects, BuyEffect]),
     importProvidersFrom([
       TranslateModule.forRoot({
         loader: {
@@ -55,14 +61,15 @@ export const appConfig: ApplicationConfig = {
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     //custom providers
     PRODUCT_API_PROVIDER,
+    BUY_API_PROVIDER,
     AUTH_API_PROVIDER,
     { provide: LOCALE_ID, useValue: 'es-CO' },
     {
       provide: APP_INITIALIZER,
       useFactory: initialStateAuth,
       deps: [Store],
-      multi: true
-    }
+      multi: true,
+    },
     //provideAppInitializer(() => {initialStateAuth})
   ],
 };

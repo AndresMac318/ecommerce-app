@@ -30,18 +30,7 @@ export const selectCartItemsCount = createSelector(
   (items) => items.length
 );
 
-/* export const selectCartItemsCount = createSelector(
-  selectCartItems,
-  (items) => items.reduce((total, item) => total + item.quantity, 0)
-); */
-
-export const selectCartTotal = createSelector(
-  selectCartItems,
-  (items) => items.reduce((total, item) => total + (item.price * item.quantity), 0)
-);
-
-export const selectCartItemById = (productId: string) => 
-  createSelector(
-    selectCartItems,
-    (items) => items.find(i => i.productId === productId)
+export const selectCartItemById = (productId: string) =>
+  createSelector(selectCartItems, (items) =>
+    items.find((i) => i.id === productId)
   );

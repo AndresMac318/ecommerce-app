@@ -46,13 +46,13 @@ export class ProductEffects {
       switchMap(([, pagination, filters]) => {
         const cacheKey = generateCacheKey(pagination, filters); //return cacheKey
         const cachedData = this.store.select(selectCachedProducts(cacheKey));
-        
+
         return cachedData.pipe(
           take(1),
-          mergeMap(cache => {
+          mergeMap((cache) => {
             // # case 1: data in cache & vigent
             const CACHE_TTL = 2 * 60 * 1000;
-            if(cache && Date.now() - cache.timestamp < CACHE_TTL){
+            if (cache && Date.now() - cache.timestamp < CACHE_TTL) {
               //console.log('CACHE if');
               return [
                 ProductsActions.loadCachedProducts({ cacheKey }),
@@ -61,27 +61,30 @@ export class ProductEffects {
             }
 
             // # case 2: make query
-            return this.productsSvc.getProductsPaginated(
-              pagination.currentPage,
-              pagination.pageSize,
-              filters
-            ).pipe(
-              tap(()=> {
-                localStorage.setItem(
-                  'appKit_ecommerce/filtersData',
-                  JSON.stringify(filters)
-                );
-              }),
-              map(
-                ({ products, totalItems, cacheKey }) => {
-                  return ProductsActions.getProductsSuccess({ products, totalItems, cacheKey })
-                }
+            return this.productsSvc
+              .getProductsPaginated(
+                pagination.currentPage,
+                pagination.pageSize,
+                filters
               )
-            )
+              .pipe(
+                tap(() => {
+                  localStorage.setItem(
+                    'appKit_ecommerce/filtersData',
+                    JSON.stringify(filters)
+                  );
+                }),
+                map(({ products, totalItems, cacheKey }) => {
+                  return ProductsActions.getProductsSuccess({
+                    products,
+                    totalItems,
+                    cacheKey,
+                  });
+                })
+              );
           })
-        )
-      }
-      )
+        );
+      })
     );
   });
 
@@ -100,7 +103,7 @@ export class ProductEffects {
       })
     )
   ); */
-  
+
   getProductsFailure$ = createEffect(
     () => {
       return this.actions$.pipe(

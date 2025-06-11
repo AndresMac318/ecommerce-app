@@ -15,17 +15,18 @@ import { Router } from '@angular/router';
   selector: 'app-product-card',
   imports: [MatButtonModule, MatIconModule, SlicePipe, CurrencyPipe],
   template: `
-    <div class="card" (click)="toDetail(product.id)">
+    <div
+      class="card"
+      (click)="toDetail(product.id)"
+      (keyup.enter)="toDetail(product.id)"
+      tabindex="0"
+    >
       @let product = productData();
-   
+
       <picture>
-        <img
-          class="card__img"
-          [src]="product.imageURL"
-          [alt]="product.name"
-        />
+        <img class="card__img" [src]="product.imageURL" [alt]="product.name" />
       </picture>
-  
+
       <div class="card__info">
         <h3 class="card__title">{{ product.name }}</h3>
         <p class="card__description">

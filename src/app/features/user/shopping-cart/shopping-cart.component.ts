@@ -1,114 +1,145 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectCartItems, selectCartTotal } from '../../auth/+state/user.selectors';
+import { selectCartItems } from '../../auth/+state/user.selectors';
 import { CommonModule } from '@angular/common';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
-import {MatListModule} from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { removeFromCart, updateItemQuantity } from '../../auth/+state/user.actions';
 import { ShoppingCartCardComponent } from '../components/shopping-cart-card/shopping-cart-card.component';
+import { BuyDomain, ProductItem } from '../../buys/domain/BuyDomain.model';
+import { registerBuy } from '../../buys/+state/buy.actions';
+import { NavigationBackComponent } from '../../../shared/components/buttons/navigation-back/navigation-back.component';
+
+import Swal from 'sweetalert2';
+import { BuyComponent } from "../../../shared/components/buttons/buy/buy.component";
 
 @Component({
   selector: 'app-shopping-cart',
-  imports: [ CommonModule, MatSelectModule, MatIconModule, TranslatePipe, MatButtonModule, MatListModule, ReactiveFormsModule, ShoppingCartCardComponent ],
+  imports: [
+    CommonModule,
+    MatSelectModule,
+    MatIconModule,
+    TranslatePipe,
+    MatButtonModule,
+    MatListModule,
+    ReactiveFormsModule,
+    ShoppingCartCardComponent,
+    NavigationBackComponent,
+    BuyComponent
+],
   template: `
     <section class="cart">
-      <h2 class="cart__title">{{ "CART.title" | translate }}</h2>
+      <app-navigation-back />
+      <h2 class="cart__title">{{ 'CART.title' | translate }}</h2>
+      @let products = cartItems();
 
-      @for (item of cartItems(); track $index) {
+      @if (products.length > 0){
 
-        <app-shopping-cart-card [itemData]="item" />
+        @for (item of products; track $index) {
+          <app-shopping-cart-card [itemData]="item" />
+        }
 
-        <!-- <div class="cart__card fadeIn">
-          <picture>
-            <img
-              class="cart__img"
-              [src]="item.imageURL"
-              [alt]="item.name"
-            />
-          </picture>
-  
-          <div class="cart__info">
-            <h3 class="cart__title">{{ item.name }}</h3>
-            <mat-form-field appearance="outline">
-              <mat-label>Quantity</mat-label>
-              <mat-select matSelect
-                (selectionChange)="onQuantityChange(item.productId, $event.value)" 
-                [formControl]="itemQuantityControls.get(item.productId)!" 
-                [value]="item.quantity"
-              >
-                <mat-option [value]="1">1</mat-option>
-                <mat-option [value]="2">2</mat-option>
-                <mat-option [value]="3">3</mat-option>
-              </mat-select>
-            </mat-form-field>
-  
-            <span class="cart__price">
-              {{ item.price * getQuantity(item.productId) | currency: '' : '$' : '1.0-0' }}
-            </span>
+        <div class="cart__details fadeIn">
+          <mat-list>
+            <mat-list-item>
+              <span>
+                Sub total:
+                <b>{{ cartSubtotal() | currency: '' : '$' : '1.0-0' }}</b>
+              </span>
+            </mat-list-item>
+            <mat-list-item>
+              <span>
+                {{ 'CART.details.tax' | translate }}:
+                <b>{{ cartTax() | currency: '' : '$' : '1.0-0' }}</b>
+              </span>
+            </mat-list-item>
+            <mat-list-item>
+              <span>
+                {{ 'CART.details.total' | translate }}:
+                <b>{{ cartTotal() | currency: '' : '$' : '1.0-0'}}</b>                
+              </span>
+            </mat-list-item>
+          </mat-list>
+          <app-buy (click)="buy()" [styleType]="'cart'" ></app-buy>
+        </div>
 
-            <button (click)="remove(item.productId)" class="cart__btndelete" mat-icon-button>
-              <mat-icon>delete</mat-icon>
-            </button>
-          
-          </div>
-        </div> -->
-
-      } @empty {
-        <div>{{ "CART.item.no_items" | translate }}</div>
+      }@else {
+        <div class="cart__details fadeIn">
+          {{ 'CART.item.no_items' | translate }}
+        </div>
       }
-
-      <div class="cart__details fadeIn">
       
-        <mat-list>
-          <mat-list-item><span>{{ "CART.details.tax" | translate }}: <b> {{ cartTotalAmount()* 0.19 | currency: '' : '$' : '1.0-0' }} </b></span></mat-list-item>
-          <mat-list-item><span>{{ "CART.details.total" | translate }}:  <b>{{ cartTotalAmount() | currency: '' : '$' : '1.0-0' }}</b></span></mat-list-item>
-        </mat-list>
-
-        <button (click)="buy()" class="cart__btn" mat-flat-button>
-          <mat-icon>shopping_bag</mat-icon>
-          {{ 'MAIN_COMPONENTS.buttons.buy' | translate }}
-        </button>
-      
-      </div>
     </section>
   `,
   styleUrl: './shopping-cart.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShoppingCartComponent implements OnInit {
-  
   private store = inject(Store);
-  
+
   cartItems = this.store.selectSignal(selectCartItems);
-  cartTotalAmount = this.store.selectSignal(selectCartTotal);
+
+  cartTax = computed(() => this.computeMounts(this.cartItems()) * 0.19);
+  cartSubtotal = computed(() => this.cartTotal() - this.cartTax());
+  cartTotal = computed(() => this.computeMounts(this.cartItems()));
 
   public itemQuantityControls = new Map<string, FormControl<number | null>>();
- 
-  /* getQuantity(productId: string){
-    return this.itemQuantityControls.get(productId)?.value || 1;
-  } */
-  
+
   ngOnInit(): void {
-    this.cartItems().forEach(item => {
-      this.itemQuantityControls.set(item.productId, new FormControl(item.quantity));
+    this.cartItems().forEach((item) => {
+      this.itemQuantityControls.set(item.id, new FormControl(item.quantity));
     });
   }
-  
-  /* remove(productId: string){
-    this.store.dispatch(removeFromCart({ productId }));
-  }
-
-  onQuantityChange(productId: string, quantity: number){
-    //console.log(productId, quantity);
-    this.store.dispatch(updateItemQuantity({ productId, quantity }));
-  } */
 
   buy(): void {
-    console.log(this.cartItems());
+    const productsData: ProductItem[] = this.cartItems();
+    if (productsData) {
+      if (productsData.length < 1) {
+        Swal.fire('Alert', 'There are not items in the cart!', 'info');
+        return;
+      }
+      const buyData: BuyDomain = {
+        salesProducts: productsData,
+        idUser: localStorage.getItem('userId') || '0',
+        VAT19: this.computeMounts(productsData) * 0.19,
+        subtotalSale: this.computeMounts(productsData) - this.computeMounts(productsData)*0.19,
+        amountSale: this.computeMounts(productsData),
+        paidType: 'TRANSFER',
+        dateSale: new Date().toISOString(),
+        state: 'SUCCESS',
+      };
+      console.log(buyData);
+      this.store.dispatch(registerBuy({ buyData }));
+    } else {
+      console.log('There are not product data');
+    }
+  }
+
+  computeMounts(data: ProductItem[]): number {
+    return data.reduce((total, product) => {
+      const price = product.sale ? product.sale_price: product.price;
+      return total + (price * product.quantity);
+    }, 0);
   }
   
+  /* computeMounts(data: ProductItem[]): number {
+    let total = 0;
+    data.forEach((product) => {
+      if (product.sale) {
+        total += product.sale_price * product.quantity;
+      } else {
+        total += product.price * product.quantity;
+      }
+    });
+    return total;
+  } */
 }

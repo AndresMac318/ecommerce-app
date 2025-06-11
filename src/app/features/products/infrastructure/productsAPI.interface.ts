@@ -8,6 +8,10 @@ export interface IProductAPIService {
     page: number,
     pageSize: number,
     filters?: ProductFilters
-  ): Observable<{products: ProductDomain[], totalItems: number, cacheKey: string}>;
+  ): Observable<{
+    products: ProductDomain[];
+    totalItems: number;
+    cacheKey: string;
+  }>;
   getProductById(userId: string): Observable<ProductDomain>;
 }

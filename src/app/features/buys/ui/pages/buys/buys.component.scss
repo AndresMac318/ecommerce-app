@@ -1,0 +1,27 @@
+@use '../../../../../../../public/styles/mixins' as mixins;
+
+:host {
+  display: block;
+  .buys {
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 30px;
+    max-width: 885px;
+    margin: 0 auto;
+
+    &__title {
+      margin: 0 0 1rem 0;
+    }
+  }
+  @include mixins.tablet() {
+    .buys {
+      padding: 30px 30px 30px 60px;
+    }
+  }
+
+  @include mixins.desktop-xl() {
+    .buys {
+      padding: 40px 60px;
+    }
+  }
+}

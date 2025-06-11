@@ -4,7 +4,6 @@ import { ProductState } from './product.state';
 export const selectProductState =
   createFeatureSelector<ProductState>('product');
 
-
 export const selectProductsLoading = createSelector(
   selectProductState,
   (state: ProductState) => state.loading
@@ -34,10 +33,8 @@ export const selectProductPagination = createSelector(
 );
 
 // Selector de caché por key
-export const selectCachedProducts = (cacheKey: string) => createSelector(
-  selectProductState,
-  (state) => state.cache[cacheKey] || {}
-);
+export const selectCachedProducts = (cacheKey: string) =>
+  createSelector(selectProductState, (state) => state.cache[cacheKey] || {});
 
 // Selector para datos actuales
 export const selectCurrentProducts = createSelector(

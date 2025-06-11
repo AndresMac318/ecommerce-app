@@ -1,4 +1,5 @@
-@use '../../../../../public/styles/mixins.scss' as mixins;
+@use '../../../../../public/styles/mixins' as mixins;
+@use '../../../../../public/styles/variables' as variables;
 
 :host {
   display: block;
@@ -17,8 +18,8 @@
     padding: 20px;
   }
   .mat-drawer {
-    color: #005cbb;
-    width: 260px;
+    color: variables.color(blue-2);;
+    width: 210px;
     box-shadow: 4px 4px 15px 1px rgba(215, 227, 255, 0.75);
     -webkit-box-shadow: 4px 4px 15px 1px rgba(215, 227, 255, 0.75);
     -moz-box-shadow: 4px 4px 15px 1px rgba(215, 227, 255, 0.75);
@@ -35,7 +36,7 @@
       width: 100%;
       border-radius: 9999px;
 
-      color: #005cbb;
+      color: variables.color(blue-2);;
       background-color: #faf9fd;
       cursor: pointer;
       transition: background-color 200ms ease-out;
@@ -44,11 +45,11 @@
         margin: 0 6px 0 0;
       }
       &:hover {
-        background-color: #d7e3ff;
+        background-color: variables.color(white-4);
       }
     }
     &__selected {
-      background-color: #d7e3ff;
+      background-color: variables.color(white-4);
     }
   }
 

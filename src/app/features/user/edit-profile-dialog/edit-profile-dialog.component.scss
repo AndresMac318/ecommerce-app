@@ -1,14 +1,13 @@
-@use '../../../../../public/styles/mixins.scss' as mixins;
+@use '../../../../../public/styles/mixins' as mixins;
+@use '../../../../../public/styles/variables' as variables;
 
 :host {
   .container {
     display: block;
-    background: #fff;
+    background: variables.color(white-1);
     border-radius: 8px;
     padding: 8px 16px;
     margin: 20px;
-    //width: 800px;
-
     .form {
       display: flex;
       flex-flow: row wrap;
@@ -42,6 +41,4 @@
       }
     }
   }
-
-  // 760px >
 }

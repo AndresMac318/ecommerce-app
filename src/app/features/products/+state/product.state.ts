@@ -1,16 +1,17 @@
 import { ProductDomain } from '../domain/productDomain.model';
 
 export interface ProductState {
-  cache: {
-    [key: string]: {
+  cache: Record<
+    string,
+    {
       data: ProductDomain[];
       timestamp: number;
     }
-  }
+  >;
   currentPageData: ProductDomain[];
   loading: boolean;
   error: string | null;
-  currentProduct: ProductDomain | null; 
+  currentProduct: ProductDomain | null;
   filters: ProductFilters;
   pagination: ProductPagination;
 }

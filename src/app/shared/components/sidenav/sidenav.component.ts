@@ -42,48 +42,13 @@ import { TranslatePipe } from '@ngx-translate/core';
               {{ 'MAIN_COMPONENTS.sidenav.items.item1' | translate }}
             </a>
           </li>
-          <!-- <li (click)="showFiller = !showFiller" mat-raised-button>
-            <mat-icon>shopping_cart</mat-icon>
-            <a routerlink="">Products</a><mat-icon>chevron_right</mat-icon>
-          </li> -->
-          <!-- @if (showFiller) {
-            <ul style="margin-left: 10px;">
-              <li>
-                <mat-icon>styler</mat-icon>
-                <a routerlink="">Men's clothing</a>
-              </li>
-              <li>
-                <mat-icon>styler</mat-icon>
-                <a routerlink="">Woman's clothing</a>
-              </li>
-              <li>
-                <mat-icon>diamond</mat-icon>
-                <a routerlink="">Jewelry</a>
-              </li>
-              <li>
-                <mat-icon>devices</mat-icon>
-                <a routerlink="">Technology</a>
-              </li>
-            </ul>
-          } -->
-
-          <!-- <li mat-menu-item [matMenuTriggerFor]="categories">
-            <mat-icon>shopping_cart</mat-icon>
-            <a routerlink="">Products</a>
-          </li>
-
-          <mat-menu #categories="matMenu">
-            <button mat-menu-item>Men's clothing</button>
-            <button mat-menu-item>Women's clothing</button>
-            <button mat-menu-item>Jewelery</button>
-            <button mat-menu-item>Electronics</button>
-          </mat-menu> -->
-          <!-- <li>
-            <mat-icon>sell</mat-icon>
-            <a routerlink="">Sales</a>
-          </li> -->
           <li>
-            <a class="menu__item" routerlink="">
+            <a
+              class="menu__item"
+              routerLink="/buys"
+              routerLinkActive="menu__selected"
+              [routerLinkActiveOptions]="{ exact: false }"
+            >
               <mat-icon>shopping_cart</mat-icon>
               {{ 'MAIN_COMPONENTS.sidenav.items.item2' | translate }}
             </a>
@@ -107,10 +72,6 @@ import { TranslatePipe } from '@ngx-translate/core';
             </a>
           </li>
         </ul>
-
-        <!-- <button (click)="showFiller = !showFiller" mat-raised-button>
-          Toggle extra text
-        </button> -->
       </mat-drawer>
       <mat-drawer-content>
         <router-outlet />
@@ -139,10 +100,12 @@ export class SidenavComponent implements AfterViewInit {
     }
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     // Verify if there is a initial value and apdate the drawer
-    this.sidenavSvc.toggleSidenavSignal()
-      ? this.drawer.open()
-      : this.drawer.close();
+    if (this.sidenavSvc.toggleSidenavSignal()) {
+      this.drawer.open();
+    } else {
+      this.drawer.close();
+    }
   }
 }

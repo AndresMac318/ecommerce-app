@@ -45,13 +45,13 @@ export const productReducer = createReducer(
         ...state.cache,
         [cacheKey]: {
           data: products,
-          timestamp: Date.now()
-        }
+          timestamp: Date.now(),
+        },
       },
       currentPageData: products,
       loading: false,
       error: null,
-      pagination: { ...state.pagination, totalItems: totalItems}
+      pagination: { ...state.pagination, totalItems: totalItems },
     })
   ),
   on(
@@ -68,7 +68,7 @@ export const productReducer = createReducer(
     (state): ProductState => ({
       ...state,
       loading: true,
-      error: null
+      error: null,
     })
   ),
   on(
@@ -98,10 +98,13 @@ export const productReducer = createReducer(
         ...state.cache,
         [cacheKey]: {
           data: products,
-          timestamp: Date.now()
-        }
+          timestamp: Date.now(),
+        },
       },
-      currentPageData: (state.currentPageData === state.cache[cacheKey].data) ? products : state.currentPageData
+      currentPageData:
+        state.currentPageData === state.cache[cacheKey].data
+          ? products
+          : state.currentPageData,
     })
   ),
   on(
@@ -116,7 +119,8 @@ export const productReducer = createReducer(
       },
     })
   ),
-  on(ProductActions.changePage, 
+  on(
+    ProductActions.changePage,
     (state, { page }): ProductState => ({
       ...state,
       pagination: {
@@ -124,5 +128,5 @@ export const productReducer = createReducer(
         currentPage: page,
       },
     })
-  ),
+  )
 );

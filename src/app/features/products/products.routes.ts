@@ -26,9 +26,10 @@ export const productRoutes: Routes = [
   },
   {
     path: 'shopping-cart',
-    loadComponent: () => 
-      import('../../features/user/shopping-cart/shopping-cart.component').then(c => c.ShoppingCartComponent),
-    canActivate: [authGuard]
-
+    loadComponent: () =>
+      import('../../features/user/shopping-cart/shopping-cart.component').then(
+        (c) => c.ShoppingCartComponent
+      ),
+    canActivate: [authGuard],
   },
 ];

@@ -73,7 +73,21 @@
         },
         "details": {
             "tax": "IVA 19%",
+            "subtotal": "Valor Subtotal",
             "total": "Valor Total"
+        }
+    },
+    "BUYS": {
+        "main_title": "Compras",
+        "buy_detail": {
+            "title": "Información de la compra",
+            "resume_buy": {
+                "iva": "IVA 19",
+                "payment": "Tipo de pago",
+                "subtotal": "Monto subtotal",
+                "amount": "Monto total",
+                "date": "Fecha"
+            }
         }
     }
 }

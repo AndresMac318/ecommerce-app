@@ -47,15 +47,27 @@ import { selectCartItemsCount } from '../../../features/auth/+state/user.selecto
   ],
   template: `
     <mat-toolbar>
-      <button
-        (click)="toggleSidenav()"
-        type="button"
-        mat-icon-button
-        class="example-icon"
-        aria-label="Example icon-button with menu icon"
-      >
-        <mat-icon>menu</mat-icon>
-      </button>
+      @if (authSvc.isLoggedIn()) {
+        <button
+          (click)="toggleSidenav()"
+          type="button"
+          mat-icon-button
+          class="example-icon"
+          aria-label="Example icon-button with menu icon"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
+      } @else {
+        <button
+          routerLink="/"
+          type="button"
+          mat-icon-button
+          class="example-icon"
+          aria-label="Example icon-button with menu icon"
+        >
+          <mat-icon>home</mat-icon>
+        </button>
+      }
 
       <a
         routerLink="/products"
@@ -96,7 +108,6 @@ import { selectCartItemsCount } from '../../../features/auth/+state/user.selecto
           <span>Español</span>
         </button>
         <button (click)="changeLanguage('en')" mat-menu-item>
-          <!-- <mat-icon>person_edit</mat-icon> -->
           <span>English</span>
         </button>
       </mat-menu>
@@ -107,7 +118,10 @@ import { selectCartItemsCount } from '../../../features/auth/+state/user.selecto
         class="example-icon"
         aria-label="Example icon-button with shopping_cart icon"
       >
-        <mat-icon [matBadge]="numItemsCart" matBadgeSize="large" aria-hidden="shopping cart"
+        <mat-icon
+          [matBadge]="numItemsCart"
+          matBadgeSize="large"
+          aria-hidden="shopping cart"
           >shopping_cart_checkout</mat-icon
         >
       </button>
@@ -124,7 +138,6 @@ import { selectCartItemsCount } from '../../../features/auth/+state/user.selecto
           </button>
           <button (click)="logout()" mat-menu-item>
             <mat-icon>logout</mat-icon>
-            <!-- <mat-icon>person_edit</mat-icon> -->
             <span>Logout</span>
           </button>
         </mat-menu>
@@ -135,7 +148,6 @@ import { selectCartItemsCount } from '../../../features/auth/+state/user.selecto
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
- 
   private isLoggedIn = signal(false);
   public products = signal([]);
 
@@ -156,7 +168,7 @@ export class HeaderComponent implements OnInit {
     this.itemsCart = this.store.selectSignal(selectCartItemsCount);
   }
 
-  get numItemsCart(){
+  get numItemsCart() {
     if (this.authSvc.isLoggedIn() && this.itemsCart() > 0) {
       return this.itemsCart();
     }
@@ -192,7 +204,6 @@ export class HeaderComponent implements OnInit {
 
   private _filter(value: string): OptionItem[] {
     const filterValue = value.toLowerCase();
-    // console.log(filterValue);
     return this.options.filter((option) =>
       option.name.toLowerCase().includes(filterValue)
     );

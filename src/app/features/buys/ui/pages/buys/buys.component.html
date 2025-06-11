@@ -1,0 +1,13 @@
+<section class="buys">
+    <h2 class="buys__title">{{ "BUYS.main_title" | translate }}</h2>
+
+    @if (buysData$().length > 0) {
+        <div>
+            @for (item of buysData$(); track $index) {
+                <app-buy-item-card [buyItemData]="item" />
+            }
+        </div>
+    } @else {
+        <span >There arent's purchases to list</span>
+    }
+</section>

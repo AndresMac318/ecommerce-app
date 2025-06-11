@@ -43,7 +43,7 @@ export const userReducer = createReducer(
       ...state,
       user,
       loading: false,
-      error: null
+      error: null,
     })
   ),
   //Logout
@@ -113,74 +113,67 @@ export const userReducer = createReducer(
   ),
   // *************************   cart   **************************
   // add item
-  on(
-    UserActions.addItemToCart,
-    (state, { item }): UserState => {
-      if (!state.user) return state;
-      
-      const existingItem = state.user.cart?.find( i => i.productId === item.productId);
-      
-      const newCart = ( existingItem ) 
-        ? state.user.cart?.map( i => i.productId === item.productId
-            ? { ...i, quantity: i.quantity + item.quantity } : i 
-        ) 
-        : [...( state.user.cart || []), item ];
-        
-        return {
-          ...state,
-          user: {
-            ...state.user,
-            cart: newCart
-          }
-        } 
-    }
-  ),
+  on(UserActions.addItemToCart, (state, { item }): UserState => {
+    if (!state.user) return state;
+
+    const existingItem = state.user.cart?.find((i) => i.id === item.id);
+
+    const newCart = existingItem
+      ? state.user.cart?.map((i) =>
+          i.id === item.id ? { ...i, quantity: i.quantity + item.quantity } : i
+        )
+      : [...(state.user.cart || []), item];
+
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        cart: newCart,
+      },
+    };
+  }),
   // delete item
   on(UserActions.removeFromCart, (state, { productId }) => ({
     ...state,
-    user: state.user ? {
-      ...state.user,
-      cart: state.user.cart?.filter(i => i.productId !== productId) || []
-    } : null
+    user: state.user
+      ? {
+          ...state.user,
+          cart: state.user.cart?.filter((i) => i.id !== productId) || [],
+        }
+      : null,
   })),
   // update quantity
   on(UserActions.updateItemQuantity, (state, { productId, quantity }) => ({
     ...state,
-    user: state.user ? {
-      ...state.user,
-      cart: state.user.cart?.map(i => 
-        i.productId === productId ? { ...i, quantity } : i
-      ) || []
-    } : null
+    user: state.user
+      ? {
+          ...state.user,
+          cart:
+            state.user.cart?.map((i) =>
+              i.id === productId ? { ...i, quantity } : i
+            ) || [],
+        }
+      : null,
   })),
   // clean cart
-  on(UserActions.clearCart, (state) => ({
-    ...state,
-    user: state.user ? {
-      ...state.user,
-      cart: []
-    } : null
-  })),
+  on(
+    UserActions.clearCart,
+    (state): UserState => ({
+      ...state,
+      user: state.user
+        ? {
+            ...state.user,
+            cart: [],
+          }
+        : null,
+    })
+  ),
   // Sync success
-  on(UserActions.cartOperationSuccess, (state, { cart }) => ({
-    ...state,
-    user: state.user ? { ...state.user, cart } : null
-  }))
-
-
-  
-  /* on(AuthActions.changePassword, (state, { newPassword }) => ({
-        ...state,
-        loading: true,
-        error: null
-    })), */
-  /* on(AuthActions.changePasswordSuccess, (state, { user }) => ({
-        ...state,
-        currentUser: user,
-        error: null
-    })),
-    on(AuthActions.changePasswordFailure, (state, { error }) => ({
-        ...state,
-        error
-    })) */
+  on(
+    UserActions.cartOperationSuccess,
+    (state, { cart }): UserState => ({
+      ...state,
+      user: state.user ? { ...state.user, cart } : null,
+    })
+  )
 );

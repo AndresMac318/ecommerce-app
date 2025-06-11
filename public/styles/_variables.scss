@@ -3,13 +3,22 @@ $colors: (
     white-1: #FFFFFF,    
     white-2: #DDDDDD,
     white-3: #FEFEFE,
+    white-4: #D7E3FF,
 
     dark-1: #0F0715,
     dark-2: #050709,
     dark-3: #140C1C,
 
     blue-1: #3F51B5,
-    gray-1: #424242, 
+    blue-2: #005CBB,
+
+    gray-1: #424242,
+    gray-2: #808080,
+
+    green-1: #2C8537,
+    green-2: #00A650,
+
+    orange-1: #DB6738,
 );
 
 @function color($color-name){

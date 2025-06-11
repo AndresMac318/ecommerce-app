@@ -19,4 +19,3 @@ export interface ProductAPIResponse {
   sale: false;
   sale_price: number;
 }
-

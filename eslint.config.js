@@ -34,6 +34,8 @@ module.exports = tseslint.config(
           style: "kebab-case",
         },
       ],
+      "@ngrx/prefer-concat-latest-from": ["off"]
+      //"@typescript-eslint/consistent-indexed-object-style": ["off"]
       //"prettier/prettier": ["error", {}, { usePrettierrc: true }],
     },
   },

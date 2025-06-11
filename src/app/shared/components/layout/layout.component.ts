@@ -8,7 +8,6 @@ import { SidenavComponent } from '../sidenav/sidenav.component';
   template: `
     <app-header></app-header>
     <app-sidenav></app-sidenav>
-    <!-- <main>main content</main> -->
   `,
   styleUrl: './layout.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -26,10 +26,4 @@ export class BuyComponent {
       return 'w100';
     }
   }
-
-  /* ngOnInit():void {
-    if (this.style == 'cart') {
-      this.
-    }
-  } */
 }

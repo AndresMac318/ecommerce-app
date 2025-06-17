@@ -47,27 +47,15 @@ import { selectCartItemsCount } from '../../../features/auth/+state/user.selecto
   ],
   template: `
     <mat-toolbar>
-      @if (authSvc.isLoggedIn()) {
-        <button
-          (click)="toggleSidenav()"
-          type="button"
-          mat-icon-button
-          class="example-icon"
-          aria-label="Example icon-button with menu icon"
-        >
-          <mat-icon>menu</mat-icon>
-        </button>
-      } @else {
-        <button
-          routerLink="/"
-          type="button"
-          mat-icon-button
-          class="example-icon"
-          aria-label="Example icon-button with menu icon"
-        >
-          <mat-icon>home</mat-icon>
-        </button>
-      }
+      <button
+        (click)="toggleSidenav()"
+        type="button"
+        mat-icon-button
+        class="example-icon"
+        aria-label="Example icon-button with menu icon"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
 
       <a
         routerLink="/products"
@@ -134,11 +122,11 @@ import { selectCartItemsCount } from '../../../features/auth/+state/user.selecto
         <mat-menu #beforeMenu="matMenu" xPosition="before">
           <button (click)="openUpdateDialog('23e7')" mat-menu-item>
             <mat-icon>manage_accounts</mat-icon>
-            <span>Profile</span>
+            <span>{{ "MAIN_COMPONENTS.buttons.profile.profile" | translate }}</span>
           </button>
           <button (click)="logout()" mat-menu-item>
             <mat-icon>logout</mat-icon>
-            <span>Logout</span>
+            <span>{{ "MAIN_COMPONENTS.buttons.profile.logout" | translate }}</span>
           </button>
         </mat-menu>
       }

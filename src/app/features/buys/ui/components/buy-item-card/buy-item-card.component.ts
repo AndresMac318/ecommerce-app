@@ -22,7 +22,10 @@ import { Router } from '@angular/router';
     >
       @let buyItem = buyItemData();
       <img
+        class="fadeIn"
         [src]="buyItem.salesProducts[0].imageURL"
+        alt="buy image"
+        (error)="handleImageError($event)"
         alt="product image"
         height="40px"
       />
@@ -46,8 +49,16 @@ import { Router } from '@angular/router';
 export class BuyItemCardComponent {
   buyItemData = input.required<BuyDomain>();
   private router = inject(Router);
+  
+  noImageUrl = '/img/no-image-web.jpg';
 
+  handleImageError(event: Event) {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = this.noImageUrl;
+  }
+  
   goToDetail(id = '0') {
     this.router.navigate(['buys', id]);
   }
+
 }

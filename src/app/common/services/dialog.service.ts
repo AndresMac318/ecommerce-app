@@ -15,6 +15,8 @@ export class DialogService {
    * @param config: config additional of dialog
    * @returns: reference at opened dialog
    * */
+
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   open<T, D = any, R = any>(
     component: ComponentType<T>,
     data?: D,

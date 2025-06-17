@@ -1,0 +1,22 @@
+
+services:
+  webmarket:
+    build: .
+    image: webmarket:v1.0.0
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    environment:
+      - API_URL=http://backend:3000
+
+  backend:
+    build: ./server
+    image: jsonserver:v1.0.0
+    ports:
+      - "3000:3000"
+    volumes:
+      - db_data:/app/data
+
+volumes:
+  db_data: {}

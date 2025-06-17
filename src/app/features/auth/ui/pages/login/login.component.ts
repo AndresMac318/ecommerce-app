@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -20,6 +20,7 @@ import {
   selectAuthLoading,
 } from '../../../+state/user.selectors';
 import Swal from 'sweetalert2';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
@@ -29,6 +30,7 @@ import Swal from 'sweetalert2';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatIconModule,
     RouterLink,
     TranslatePipe,
   ],
@@ -38,7 +40,7 @@ import Swal from 'sweetalert2';
         <span class="login__copy">{{ 'AUTH.LOGIN.copy' | translate }}</span>
       </div>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <h2>{{ 'AUTH.LOGIN.title' | translate }}</h2>
+        <h2 class="login__title">{{ 'AUTH.LOGIN.title' | translate }}</h2>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>{{
             'AUTH.LOGIN.FORM.labels.email' | translate
@@ -58,13 +60,25 @@ import Swal from 'sweetalert2';
           <mat-label>{{
             'AUTH.LOGIN.FORM.labels.password' | translate
           }}</mat-label>
-          <input matInput type="password" formControlName="password" required />
+          
+          <input matInput [type]="showPassword() ? 'password' : 'text'" formControlName="password" required />
+          <button
+            class="login__hidebtn"
+            mat-icon-button
+            matSuffix
+            type="button"
+            [attr.aria-label]="'Hide password'"
+            (click)="clickEvent($event)"
+          >
+            <mat-icon>{{showPassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
           @if (controlHasError('password', 'required')) {
             <mat-error> * {{ 'AUTH.errors.password' | translate }} </mat-error>
           }
         </mat-form-field>
 
         <button
+          class="login__submitbtn"
           mat-raised-button
           color="primary"
           type="submit"
@@ -84,6 +98,7 @@ import Swal from 'sweetalert2';
 })
 export class LoginComponent implements OnInit {
   public loginForm!: FormGroup;
+  showPassword = signal(true);
 
   loading$: Observable<boolean>;
   error$: Observable<string | null>;
@@ -114,6 +129,12 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  clickEvent(event: MouseEvent) {
+    //this.showPassword.set(!this.showPassword());
+    this.showPassword.update((value) => !value); 
+    event.stopPropagation();
+  }
+  
   controlHasError(control: string, error: string) {
     return this.loginForm.controls[control].hasError(error);
   }

@@ -24,7 +24,7 @@ import { Router } from '@angular/router';
       @let product = productData();
 
       <picture>
-        <img class="card__img" [src]="product.imageURL" [alt]="product.name" />
+        <img class="card__img fadeIn" [src]="product.imageURL" [alt]="product.name" (error)="handleImageError($event)"/>
       </picture>
 
       <div class="card__info">
@@ -61,10 +61,17 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCardComponent {
-  private router = inject(Router);
 
+  private router = inject(Router);
   productData = input.required<ProductDomain>();
   isFavorite = signal(false);
+
+  noImageUrl = '/img/no-image-web.jpg';
+
+  handleImageError(event: Event) {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = this.noImageUrl;
+  }
 
   toggleFavorite(event: MouseEvent) {
     event.stopPropagation();

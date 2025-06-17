@@ -48,7 +48,11 @@
             "back": "Back",
             "buy": "Buy",
             "add_cart": "Add to cart",
-            "pages": "Pages:"
+            "pages": "Pages:",
+            "profile": {
+                "profile": "Profile",
+                "logout": "Logout"
+            }
         }
     },
     "PRODUCTS": {

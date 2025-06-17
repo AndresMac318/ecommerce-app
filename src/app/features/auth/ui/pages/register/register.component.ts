@@ -3,6 +3,7 @@ import {
   Component,
   inject,
   OnInit,
+  signal,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -21,6 +22,7 @@ import { Store } from '@ngrx/store';
 import { TranslatePipe } from '@ngx-translate/core';
 
 import { signup } from '../../../+state/user.actions';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-register',
@@ -31,6 +33,7 @@ import { signup } from '../../../+state/user.actions';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatIconModule,
     MatDatepickerModule,
     MatNativeDateModule,
     TranslatePipe,
@@ -104,6 +107,15 @@ import { signup } from '../../../+state/user.actions';
             'AUTH.REGISTER.FORM.labels.password' | translate
           }}</mat-label>
           <input matInput type="password" formControlName="password" required />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            [attr.aria-label]="'Hide password'"
+            (click)="clickEvent($event)"
+          >
+            <mat-icon>{{showPassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
           @if (controlHasError('password', 'required')) {
             <mat-error> * {{ 'AUTH.errors.password' | translate }} </mat-error>
           }
@@ -129,6 +141,8 @@ import { signup } from '../../../+state/user.actions';
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
+  showPassword = signal(true);
+
   private formBuilder = inject(FormBuilder);
   private store = inject(Store);
 
@@ -137,10 +151,15 @@ export class RegisterComponent implements OnInit {
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', [Validators.required]],
-      dateOfBirth: ['', [Validators.required]], //todo: edad minima validar
+      dateOfBirth: ['', [Validators.required]],
       address: ['', [Validators.required, Validators.minLength(10)]],
       password: ['', [Validators.required]],
     });
+  }
+
+  clickEvent(event: MouseEvent) {
+    this.showPassword.update((value) => !value); 
+    event.stopPropagation();
   }
 
   onSubmit() {

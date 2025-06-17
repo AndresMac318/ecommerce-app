@@ -54,9 +54,10 @@ import { AddCartComponent } from "../../../../../shared/components/buttons/addCa
         <div class="detail__contain">
           <picture class="detail__picture">
             <img
-              class="detail__img"
+              class="detail__img fadeIn"
               [src]="product.imageURL"
               [alt]="product.name"
+              (error)="handleImageError($event)"
             />
           </picture>
 
@@ -150,6 +151,8 @@ export class ProductDetailComponent implements OnInit {
   private authSvc = inject(AuthUseCaseService);
   private router = inject(Router);
 
+  public noImageUrl = '/img/no-image-web.jpg';
+
   public itemQuantityControl = new FormControl<number>(1, {
     nonNullable: true,
   });
@@ -160,6 +163,11 @@ export class ProductDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(getProductById({ id: this.id }));
+  }
+
+  handleImageError(event: Event) {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = this.noImageUrl;
   }
 
   toggleFavorite(event: MouseEvent) {

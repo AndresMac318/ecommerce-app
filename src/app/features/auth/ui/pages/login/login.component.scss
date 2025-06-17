@@ -23,7 +23,7 @@
       color: #537ac3;
     }
 
-    h2 {
+    &__title {
       margin-bottom: 1rem;
       color: variables.color(gray-1);
     }
@@ -33,7 +33,11 @@
       margin-bottom: 1rem;
     }
 
-    button {
+    &__hidebtn {
+      margin: 0 8px 0 0;
+    }
+
+    &__submitbtn {
       width: 100%;
       margin-top: 1rem;
     }
@@ -58,4 +62,5 @@
       gap: 30px;
     }
   }
+
 }

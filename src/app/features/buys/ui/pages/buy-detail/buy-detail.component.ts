@@ -41,6 +41,7 @@ import { TranslatePipe } from '@ngx-translate/core';
                   <img
                     [src]="item.imageURL"
                     alt="Product image"
+                    (error)="handleImageError($event)"
                     height="60px"
                   />
                 </picture>
@@ -129,6 +130,7 @@ export class BuyDetailComponent {
 
   buyData = signal<BuyDomain | null>(null);
   isLoading = signal(true);
+  noImageUrl = '/img/no-image-web.jpg';
 
   private buysUseCaseSvc = inject(BuyUsecaseService);
   private destroyRef = inject(DestroyRef);
@@ -156,5 +158,10 @@ export class BuyDetailComponent {
 
       onCleanup(() => sub.unsubscribe());
     });
+  }
+
+  handleImageError(event: Event) {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = this.noImageUrl;
   }
 }

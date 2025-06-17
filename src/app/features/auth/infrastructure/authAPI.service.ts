@@ -62,6 +62,7 @@ export class AuthService implements IAuthAPIService {
     localStorage.removeItem('user');
     localStorage.removeItem('userId');
     localStorage.setItem('isLoggedIn', 'false');
+    localStorage.setItem('appKit_ecommerce/sidenavCollapse', 'false');
     this.router.navigate(['/auth/login']);
   }
 

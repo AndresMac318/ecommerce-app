@@ -17,6 +17,22 @@ export const getProductsFailure = createAction(
   '[Product] Get Products Failure',
   props<{ error: string }>()
 );
+  
+// update product stock
+export const updateProductStock = createAction(
+  '[Product] Update Product Stock',
+  props<{ id: string; stock: number }>()
+);
+
+export const updateProductStockSuccess = createAction(
+  '[Product] Update Product Stock Success',
+  props<{ product: ProductDomain }>()
+);
+
+export const updateProductStockFailure = createAction(
+  '[Product] Update Product Stock Failure',
+  props<{ error: string }>()
+); 
 
 /* product by id */
 export const getProductById = createAction(
@@ -50,18 +66,4 @@ export const changePage = createAction(
 export const loadCachedProducts = createAction(
   '[Product] Get Cached Products',
   props<{ cacheKey: string }>()
-);
-
-// ? background update
-export const backgroundUpdateRequest = createAction(
-  '[Product] Background Update Request',
-  props<{ cacheKey: string }>()
-);
-export const backgroundUpdateSuccess = createAction(
-  '[Product] Background Update Success',
-  props<{ cacheKey: string; products: ProductDomain[] }>()
-);
-export const backgroundUpdateFailure = createAction(
-  '[Product] Background Update Failure',
-  props<{ cacheKey: string; error: string }>()
 );

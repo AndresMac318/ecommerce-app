@@ -14,10 +14,12 @@
     padding: 20px;
 
     cursor: pointer;
-    background-color: variables.color(white-3);
-    box-shadow: 2px 0px 2px 0px rgba(214, 214, 214, 1);
-    -webkit-box-shadow: 2px 0px 3px 0px rgb(214, 214, 214);
-    -moz-box-shadow: 2px 0px 3px 0px rgb(214, 214, 214);
+    background-color: var(--mat-sys-surface-container-high);
+    
+    color: var(--mat-sys-on-surface);
+    box-shadow: 1px -1px 2px 0px rgba(214, 214, 214, 1);
+    -webkit-box-shadow: 1px -1px 2px 0px rgb(214, 214, 214);
+    -moz-box-shadow: 1px -1px 2px 0px rgb(214, 214, 214);
 
     &__img {
       height: 180px;

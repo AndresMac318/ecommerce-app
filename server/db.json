@@ -1,33 +1,14 @@
 {
   "users": [
     {
-      "name": "Andres Macea",
-      "email": "andres@gmail.com",
+      "name": "default user",
+      "email": "default@test.com",
       "phoneNumber": "3156660001",
       "dateOfBirth": "2000-02-08T05:00:00.000Z",
       "address": "Calle 89 #80-67, Buga",
       "password": "123456",
       "role": "ADMIN",
-      "cart": [
-        {
-          "id": "7",
-          "price": 2219000,
-          "name": "White Gold Plated Princess",
-          "imageURL": "img/7_WhiteGoldPlatedPrincess.jpg",
-          "quantity": 1,
-          "sale": false,
-          "sale_price": 0
-        },
-        {
-          "id": "6",
-          "price": 116500,
-          "name": "Solid Gold Petite Micropave",
-          "imageURL": "img/6_SolidGoldPetiteMicropave.jpg",
-          "quantity": 1,
-          "sale": false,
-          "sale_price": 0
-        }
-      ],
+      "cart": [],
       "id": "23e7"
     },
     {
@@ -44,41 +25,10 @@
     {
       "id": "c55f",
       "name": "Ana Cardona",
-      "email": "anacardona@outlook.es",
+      "email": "ana@outlook.es",
       "phoneNumber": "3004442121",
       "dateOfBirth": "2004-05-04T05:00:00.000Z",
-      "address": "Crr 88 Cll 102 #88-97, Medellín   ",
-      "password": "123456"
-    },
-    {
-      "id": "eb3a",
-      "name": "Martina Rios",
-      "email": "martina@mail.com",
-      "phoneNumber": "3224441010",
-      "dateOfBirth": "2006-01-10T05:00:00.000Z",
-      "address": "Crr 32 Cll 20 #32-19, Cartagena",
-      "password": "123456",
-      "role": "CUSTOMER",
-      "cart": []
-    },
-    {
-      "id": "3508",
-      "name": "carlos tirado",
-      "email": "carlost@yahoo.es",
-      "phoneNumber": "3000008888",
-      "dateOfBirth": "2005-10-12T05:00:00.000Z",
-      "address": "CR 77 CLL 82, Yumbo",
-      "password": "123456",
-      "role": "CUSTOMER",
-      "cart": []
-    },
-    {
-      "id": "ac42",
-      "name": "Alejandra Lopez",
-      "email": "alejandra@gmail.com",
-      "phoneNumber": "3000002211",
-      "dateOfBirth": "2004-07-14T05:00:00.000Z",
-      "address": "B/Americas Cll 11 CR 10 #11-22",
+      "address": "Crr 88 Cll 102 #88-97, Medellín",
       "password": "123456",
       "role": "CUSTOMER",
       "cart": []
@@ -92,7 +42,7 @@
       "description": "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
       "imageURL": "img/1_Fjallraven.jpg",
       "category": "men's clothing",
-      "stock": 43,
+      "stock": 29,
       "sale": false,
       "sale_price": 0
     },
@@ -114,7 +64,7 @@
       "description": "great outerwear jackets for Spring/Autumn/Winter, suitable for many occasions, such as working, hiking, camping, mountain/rock climbing, cycling, traveling or other outdoors. Good gift choice for you or your family member. A warm hearted love to Father, husband or son in this thanksgiving or Christmas Day.",
       "imageURL": "img/3_MensCottonJacket.jpg",
       "category": "men's clothing",
-      "stock": 43,
+      "stock": 30,
       "sale": false,
       "sale_price": 0
     },
@@ -125,7 +75,7 @@
       "description": "The color could be slightly different between on the screen and in practice. / Please note that body builds vary by person, therefore, detailed size information should be reviewed below on the product description.",
       "imageURL": "img/4_MensCasualSlimFit.jpg",
       "category": "men's clothing",
-      "stock": 43,
+      "stock": 30,
       "sale": false,
       "sale_price": 0
     },
@@ -224,7 +174,7 @@
       "description": "21. 5 inches Full HD (1920 x 1080) widescreen IPS display And Radeon free Sync technology. No compatibility for VESA Mount Refresh Rate: 75Hz - Using HDMI port Zero-frame design | ultra-thin | 4ms response time | IPS panel Aspect ratio - 16: 9. Color Supported - 16. 7 million colors. Brightness - 250 nit Tilt angle -5 degree to 15 degree. Horizontal viewing angle-178 degree. Vertical viewing angle-178 degree 75 hertz",
       "imageURL": "img/13_AcerSB220Q21FullHD.jpg",
       "category": "electronics",
-      "stock": 43,
+      "stock": 42,
       "sale": false,
       "sale_price": 0
     },
@@ -410,6 +360,48 @@
       "amountSale": 259000,
       "paidType": "TRANSFER",
       "dateSale": "2025-06-17T20:53:56.120Z",
+      "state": "SUCCESS"
+    },
+    {
+      "id": "f664",
+      "salesProducts": [
+        {
+          "id": "16",
+          "price": 500400,
+          "name": "Lock and Love Women's Removable Hooded Faux Leather Moto Biker Jacket",
+          "imageURL": "img/16_WomenRemovableHooded.jpeg",
+          "quantity": 1,
+          "sale": false,
+          "sale_price": 0
+        }
+      ],
+      "idUser": "23e7",
+      "VAT19": 95076,
+      "subtotalSale": 405324,
+      "amountSale": 500400,
+      "paidType": "TRANSFER",
+      "dateSale": "2025-06-20T19:02:33.819Z",
+      "state": "SUCCESS"
+    },
+    {
+      "id": "bd3c",
+      "salesProducts": [
+        {
+          "id": "1",
+          "price": 129500,
+          "name": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+          "imageURL": "img/1_Fjallraven.jpg",
+          "quantity": 1,
+          "sale": false,
+          "sale_price": 0
+        }
+      ],
+      "idUser": "23e7",
+      "VAT19": 24605,
+      "subtotalSale": 104895,
+      "amountSale": 129500,
+      "paidType": "TRANSFER",
+      "dateSale": "2025-06-23T13:52:29.034Z",
       "state": "SUCCESS"
     }
   ]

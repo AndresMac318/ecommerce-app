@@ -16,11 +16,12 @@ import { MatListModule } from '@angular/material/list';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ShoppingCartCardComponent } from '../components/shopping-cart-card/shopping-cart-card.component';
 import { BuyDomain, ProductItem } from '../../buys/domain/BuyDomain.model';
-import { registerBuy } from '../../buys/+state/buy.actions';
+import { registerBuyCart } from '../../buys/+state/buy.actions';
 import { NavigationBackComponent } from '../../../shared/components/buttons/navigation-back/navigation-back.component';
 
 import Swal from 'sweetalert2';
 import { BuyComponent } from "../../../shared/components/buttons/buy/buy.component";
+import { updateProductStock } from '../../products/+state/product.actions';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -102,7 +103,9 @@ export class ShoppingCartComponent implements OnInit {
 
   buy(): void {
     const productsData: ProductItem[] = this.cartItems();
+   
     if (productsData) {
+       // validation existence of products in cart
       if (productsData.length < 1) {
         Swal.fire('Alert', 'There are not items in the cart!', 'info');
         return;
@@ -117,10 +120,19 @@ export class ShoppingCartComponent implements OnInit {
         dateSale: new Date().toISOString(),
         state: 'SUCCESS',
       };
-      console.log(buyData);
-      this.store.dispatch(registerBuy({ buyData }));
+      
+      if (buyData.salesProducts.length === 1) {
+        this.store.dispatch(updateProductStock({ 
+          id: buyData.salesProducts[0].id, 
+          stock: 30 - buyData.salesProducts[0].quantity 
+        }));
+        return this.store.dispatch(registerBuyCart({ buyData }));
+      }
+
+      this.store.dispatch(registerBuyCart({ buyData }));
     } else {
-      console.log('There are not product data');
+      console.error('There are not items in the cart!');
+      Swal.fire('Alert', 'There are not items in the cart!', 'info');
     }
   }
 
@@ -131,15 +143,4 @@ export class ShoppingCartComponent implements OnInit {
     }, 0);
   }
   
-  /* computeMounts(data: ProductItem[]): number {
-    let total = 0;
-    data.forEach((product) => {
-      if (product.sale) {
-        total += product.sale_price * product.quantity;
-      } else {
-        total += product.price * product.quantity;
-      }
-    });
-    return total;
-  } */
 }

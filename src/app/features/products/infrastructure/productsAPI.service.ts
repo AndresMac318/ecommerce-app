@@ -16,19 +16,19 @@ import { ProductFilters } from '../+state/product.state';
 export class ProductsAPIService implements IProductAPIService {
   private http = inject(HttpClient);
   private readonly api_url = environment.API_URL_BASE;
-
+  
   getAllProducts(): Observable<ProductDomain[]> {
     return this.http
-      .get<ProductAPIResponse[]>(`${this.api_url}/products`)
-      .pipe(
-        catchError((error) =>
-          throwError(() =>
-            console.log('An error has been in get products', error)
-          )
+    .get<ProductAPIResponse[]>(`${this.api_url}/products`)
+    .pipe(
+      catchError((error) =>
+        throwError(() =>
+          console.error('An error has been in get products', error)
         )
-      );
+      )
+    );
   }
-
+  
   getProductsPaginated(
     page: number,
     pageSize: number,
@@ -39,28 +39,28 @@ export class ProductsAPIService implements IProductAPIService {
     cacheKey: string;
   }> {
     let params = new HttpParams()
-      .set('_page', page.toString())
-      .set('_per_page', pageSize.toString());
-
+    .set('_page', page.toString())
+    .set('_per_page', pageSize.toString());
+    
     if (filters?.category) {
       params = params.set('category', filters.category);
     }
     if (filters?.priceRange) {
       params = params
-        .set('price_gte', filters.priceRange[0].toString())
-        .set('price_lte', filters.priceRange[1].toString());
+      .set('price_gte', filters.priceRange[0].toString())
+      .set('price_lte', filters.priceRange[1].toString());
     }
 
     const cacheKey = `${page}|${pageSize}|${filters?.category}|${filters?.priceRange?.[0]}|${filters?.priceRange?.[1]}|`;
-
+    
     return this.http
-      .get<ProductPaginatedAPIResponse>(`${this.api_url}/products`, {
-        params,
-        //observe: 'response',
-      })
-      .pipe(
-        map((res) => ({
-          products: res.data,
+    .get<ProductPaginatedAPIResponse>(`${this.api_url}/products`, {
+      params,
+      //observe: 'response',
+    })
+    .pipe(
+      map((res) => ({
+        products: res.data,
           totalItems: res.items,
           cacheKey: cacheKey,
         })),
@@ -69,6 +69,10 @@ export class ProductsAPIService implements IProductAPIService {
           return throwError(() => new Error('Failed to load products'));
         })
       );
+    }
+    
+  updateProductStock(id: string, stock: number): Observable<ProductDomain> {
+    return this.http.patch<ProductDomain>(`${this.api_url}/products/${id}`, { stock });
   }
 
   getProductById(userId: string): Observable<ProductDomain> {
@@ -77,7 +81,7 @@ export class ProductsAPIService implements IProductAPIService {
       .pipe(
         catchError((error) =>
           throwError(() =>
-            console.log('An error has been in get product', error)
+            console.error('An error has been in get product', error)
           )
         )
       );

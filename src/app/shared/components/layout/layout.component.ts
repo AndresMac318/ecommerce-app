@@ -4,10 +4,13 @@ import { SidenavComponent } from '../sidenav/sidenav.component';
 
 @Component({
   selector: 'app-layout',
-  imports: [HeaderComponent, SidenavComponent],
+  imports: [HeaderComponent, SidenavComponent ],
   template: `
-    <app-header></app-header>
-    <app-sidenav></app-sidenav>
+    <div>
+      <app-header></app-header>
+      <app-sidenav></app-sidenav>
+    </div>
+    
   `,
   styleUrl: './layout.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,6 +1,9 @@
+@use 'sass:map';
+
 $colors: (
     
-    white-1: #FFFFFF,    
+    //white-1: #FFFFFF,    
+    white-1: var(--mat-sys-on-primary-container),    
     white-2: #DDDDDD,
     white-3: #FEFEFE,
     white-4: #D7E3FF,

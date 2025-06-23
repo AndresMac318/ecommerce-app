@@ -4,7 +4,9 @@
 :host {
   .container {
     display: block;
-    background: variables.color(white-1);
+    background: var(--mat-sys-surface);
+    color: var();
+    
     border-radius: 8px;
     padding: 8px 16px;
     margin: 20px;

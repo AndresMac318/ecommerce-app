@@ -14,4 +14,6 @@ export interface IProductAPIService {
     cacheKey: string;
   }>;
   getProductById(userId: string): Observable<ProductDomain>;
+
+  updateProductStock(id: string, stock: number): Observable<ProductDomain>;
 }

@@ -1,16 +1,22 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../../../shared/components/header/header.component';
+import { FooterComponent } from "../../../../shared/components/footer/footer.component";
 
 @Component({
   selector: 'app-layout',
-  imports: [RouterModule, HeaderComponent],
+  imports: [RouterModule, HeaderComponent, FooterComponent],
   template: `
-    <nav>
-      <app-header></app-header>
-    </nav>
     <div class="container">
-      <router-outlet />
+      <nav>
+        <app-header></app-header>
+      </nav>
+      <div class="body">
+        <router-outlet />
+      </div>
+      <div class="footer">
+        <app-footer></app-footer>
+      </div>
     </div>
   `,
   styleUrl: './layout.component.scss',

@@ -30,3 +30,18 @@ export const registerBuyFailure = createAction(
   '[Buy] Register Buy Failure',
   props<{ error: string }>()
 );
+
+export const registerBuyCart = createAction(
+  '[Buy] Register Buy Cart',
+  props<{ buyData: BuyDomain }>()
+);
+
+export const registerBuyCartSuccess = createAction(
+  '[Buy] Register Buy Cart Success',
+  props<{ buyItem: BuyDomain }>()
+);
+
+export const registerBuyCartFailure = createAction(
+  '[Buy] Register Buy Cart Failure',
+  props<{ error: string }>()
+);

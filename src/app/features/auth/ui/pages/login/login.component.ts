@@ -79,7 +79,7 @@ import { MatIconModule } from '@angular/material/icon';
 
         <button
           class="login__submitbtn"
-          mat-raised-button
+          mat-flat-button
           color="primary"
           type="submit"
           [disabled]="loginForm.invalid"
@@ -120,7 +120,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     if (isLoggedIn) {
-      this.router.navigate(['landing']);
+      this.router.navigate(['/']);
     }
     this.error$.subscribe((error) => {
       if (error) {
@@ -130,7 +130,6 @@ export class LoginComponent implements OnInit {
   }
 
   clickEvent(event: MouseEvent) {
-    //this.showPassword.set(!this.showPassword());
     this.showPassword.update((value) => !value); 
     event.stopPropagation();
   }

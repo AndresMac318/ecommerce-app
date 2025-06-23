@@ -1,14 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   inject,
-  Input,
-  OnInit,
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { getProductById } from '../../../+state/product.actions';
+import { getProductById, updateProductStock } from '../../../+state/product.actions';
 import { selectProductById } from '../../../+state/product.selectors';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,7 +15,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { addItemToCart } from '../../../../auth/+state/user.actions';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthUseCaseService } from '../../../../auth/application/auth-usecase.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatSelectModule } from '@angular/material/select';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -27,6 +26,9 @@ import { registerBuy } from '../../../../buys/+state/buy.actions';
 import { NavigationBackComponent } from '../../../../../shared/components/buttons/navigation-back/navigation-back.component';
 import { BuyComponent } from '../../../../../shared/components/buttons/buy/buy.component';
 import { AddCartComponent } from "../../../../../shared/components/buttons/addCart/addCart.component";
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-detail',
@@ -110,7 +112,7 @@ import { AddCartComponent } from "../../../../../shared/components/buttons/addCa
             }
 
             <mat-form-field appearance="outline">
-              <mat-label>Quantity</mat-label>
+              <mat-label>{{ "PRODUCTS.product_detail.label_quantity" | translate }}</mat-label>
               <mat-select
                 matSelect
                 [formControl]="itemQuantityControl"
@@ -143,26 +145,29 @@ import { AddCartComponent } from "../../../../../shared/components/buttons/addCa
   styleUrl: './product-detail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductDetailComponent implements OnInit {
-  @Input() id!: string;
+export class ProductDetailComponent {
 
   private store = inject(Store);
   private _snackBar = inject(MatSnackBar);
   private authSvc = inject(AuthUseCaseService);
+  private route = inject(ActivatedRoute);
   private router = inject(Router);
-
-  public noImageUrl = '/img/no-image-web.jpg';
-
-  public itemQuantityControl = new FormControl<number>(1, {
-    nonNullable: true,
-  });
-
-  isFavorite = signal(false);
-
+  
+  private id = toSignal(this.route.params.pipe(map(params => params['id'])));
   readonly productDetail = this.store.selectSignal(selectProductById);
 
-  ngOnInit(): void {
-    this.store.dispatch(getProductById({ id: this.id }));
+  public noImageUrl = '/img/no-image-web.jpg';
+  public isFavorite = signal(false);
+
+  public itemQuantityControl = new FormControl<number>(1, { nonNullable: true });
+
+  constructor(){
+    effect(() => {
+      const currentId = this.id();
+      if (currentId) {
+        this.store.dispatch(getProductById({ id: currentId }));
+      }
+    });
   }
 
   handleImageError(event: Event) {
@@ -182,8 +187,16 @@ export class ProductDetailComponent implements OnInit {
     }
 
     const itemData = this.productDetail();
+    const quantity = this.itemQuantityControl.value || 0;
 
     if (itemData) {
+
+      //validate stock
+      if (quantity > itemData.stock) {
+        Swal.fire('Stock Insufficient', 'Not enough stock available', 'warning');
+        return;
+      }
+
       const cartItem: ProductItem = {
         id: itemData.id,
         price: itemData.price,
@@ -217,6 +230,8 @@ export class ProductDetailComponent implements OnInit {
   }
 
   registerBuy() {
+
+    //validate auth
     if (!this.authSvc.isLoggedIn()) {
       this.router.navigate(['/auth/login']);
       return;
@@ -224,11 +239,20 @@ export class ProductDetailComponent implements OnInit {
 
     const productData = this.productDetail();
     const quantity = this.itemQuantityControl.value || 0;
+
     if (productData) {
+
+      //validate stock
+      if (quantity > productData.stock) {
+        Swal.fire('Stock Insufficient', 'Not enough stock available', 'warning');
+        return;
+      }
+
+      // build data buy
       const buyData: BuyDomain = {
         salesProducts: [
           {
-            id: this.id,
+            id: productData.id,
             price: productData.price,
             name: productData.name,
             imageURL: productData.imageURL,
@@ -245,6 +269,8 @@ export class ProductDetailComponent implements OnInit {
         dateSale: new Date().toISOString(),
         state: 'SUCCESS',
       };
+
+      // validate if BuySale
       if (productData.sale) {
         const saleBuyData = {
           ...buyData,
@@ -252,11 +278,33 @@ export class ProductDetailComponent implements OnInit {
           subtotalSale: productData.sale_price * quantity - productData.sale_price * quantity * 0.19,
           amountSale: productData.sale_price * quantity,
         };
-        return this.store.dispatch(registerBuy({ buyData: saleBuyData }));
+        
+        // dispatch registerBuy
+        this.store.dispatch(registerBuy({ buyData: saleBuyData }));
+        
+        this.store.dispatch(updateProductStock({ 
+          id: productData.id, 
+          stock: productData.stock - quantity 
+        }));
+
+        return this.store.dispatch(getProductById({ id: this.id() }));
       }
-      return this.store.dispatch(registerBuy({ buyData }));
+
+      // dispatch action in commonSale
+      this.store.dispatch(registerBuy({ buyData}));
+        
+      //update stock commonSale
+      this.store.dispatch(updateProductStock({ 
+        id: productData.id, 
+        stock: productData.stock - quantity 
+      }));
+
+      return this.store.dispatch(getProductById({ id: this.id() }));
+
     } else {
-      console.log('There are not product data');
+      console.error('No product data available');
+      Swal.fire('Error', 'Product information not available', 'error');
+      return;
     }
   }
 }

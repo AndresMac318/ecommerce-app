@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @use '../../../../../public/styles/mixins' as mixins;
 @use '../../../../../public/styles/variables' as variables;
 
@@ -17,15 +18,18 @@
   .example-sidenav {
     padding: 20px;
   }
+
   .mat-drawer {
-    color: variables.color(blue-2);;
+    background-color: var(--mat-sys-surface-container-high);
     width: 210px;
     box-shadow: 4px 4px 15px 1px rgba(215, 227, 255, 0.75);
-    -webkit-box-shadow: 4px 4px 15px 1px rgba(215, 227, 255, 0.75);
     -moz-box-shadow: 4px 4px 15px 1px rgba(215, 227, 255, 0.75);
+    
+    -webkit-box-shadow: 4px 4px 15px 1px rgb(127 123 123 / 9%);
   }
 
   .menu {
+    color: var(--mat-sys-primary);
     &__item {
       display: flex;
       flex-flow: row;
@@ -36,21 +40,36 @@
       width: 100%;
       border-radius: 9999px;
 
-      color: variables.color(blue-2);;
-      background-color: #faf9fd;
+      color: var(--mat-sys-on-surface-variant);
       cursor: pointer;
       transition: background-color 200ms ease-out;
 
       mat-icon {
+        color: var(--mat-sys-on-surface-variant);
         margin: 0 6px 0 0;
       }
+    
       &:hover {
-        background-color: variables.color(white-4);
+        background-color: var(--mat-sys-outline-variant);
+        color: var(--mat-sys-on-background);
+        mat-icon {
+          color: var(--mat-sys-on-background);
+        }
       }
     }
     &__selected {
-      background-color: variables.color(white-4);
+      background-color: var(--mat-sys-outline-variant);
+      color: var(--mat-sys-on-background);
+      mat-icon {
+        color: var(--mat-sys-on-background);
+      }
     }
+  }
+
+  .drawer-container{
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
   }
 
   @include mixins.mobile() {
@@ -58,4 +77,8 @@
       height: calc(100vh - 64px);
     }
   }
+}
+
+router-outlet{
+  display: none;
 }

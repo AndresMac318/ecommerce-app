@@ -1,6 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
+  effect,
+  inject,
   OnInit,
   Signal,
   signal,
@@ -28,6 +31,7 @@ import { OptionItem } from '../../../common/interfaces/optionItem.interface';
 import { ProductUseCaseService } from '../../../features/products/application/product-usecase.service';
 import { Store } from '@ngrx/store';
 import { selectCartItemsCount } from '../../../features/auth/+state/user.selectors';
+import { ThemeService } from '../../../common/services/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -45,98 +49,14 @@ import { selectCartItemsCount } from '../../../features/auth/+state/user.selecto
     MatBadgeModule,
     RouterLink,
   ],
-  template: `
-    <mat-toolbar>
-      <button
-        (click)="toggleSidenav()"
-        type="button"
-        mat-icon-button
-        class="example-icon"
-        aria-label="Example icon-button with menu icon"
-      >
-        <mat-icon>menu</mat-icon>
-      </button>
-
-      <a
-        routerLink="/products"
-        routerLinkActive="router-link-active"
-        class="navbar__title"
-        >WebMarket</a
-      >
-
-      <div class="formcontainer">
-        <form class="form">
-          <input
-            class="form__input"
-            name="searchInput"
-            placeholder="{{
-              'MAIN_COMPONENTS.header.input_placeholder' | translate
-            }}"
-            type="text"
-            [formControl]="searchInput"
-            [matAutocomplete]="auto"
-          />
-          <mat-autocomplete #auto="matAutocomplete">
-            @for (option of filteredOptions | async; track option) {
-              <mat-option [value]="option.name" (click)="toResult(option.id)">{{
-                option.name
-              }}</mat-option>
-            } @empty {
-              <mat-option>There arent's matching products</mat-option>
-            }
-          </mat-autocomplete>
-        </form>
-      </div>
-
-      <button mat-icon-button [matMenuTriggerFor]="translateMenu">
-        <mat-icon>translate</mat-icon>
-      </button>
-      <mat-menu #translateMenu="matMenu" xPosition="before">
-        <button (click)="changeLanguage('es')" mat-menu-item>
-          <span>Español</span>
-        </button>
-        <button (click)="changeLanguage('en')" mat-menu-item>
-          <span>English</span>
-        </button>
-      </mat-menu>
-
-      <button
-        (click)="goToCart()"
-        mat-icon-button
-        class="example-icon"
-        aria-label="Example icon-button with shopping_cart icon"
-      >
-        <mat-icon
-          [matBadge]="numItemsCart"
-          matBadgeSize="large"
-          aria-hidden="shopping cart"
-          >shopping_cart_checkout</mat-icon
-        >
-      </button>
-
-      @if (authSvc.isLoggedIn()) {
-        <button mat-icon-button [matMenuTriggerFor]="beforeMenu">
-          <mat-icon>account_circle</mat-icon>
-        </button>
-
-        <mat-menu #beforeMenu="matMenu" xPosition="before">
-          <button (click)="openUpdateDialog('23e7')" mat-menu-item>
-            <mat-icon>manage_accounts</mat-icon>
-            <span>{{ "MAIN_COMPONENTS.buttons.profile.profile" | translate }}</span>
-          </button>
-          <button (click)="logout()" mat-menu-item>
-            <mat-icon>logout</mat-icon>
-            <span>{{ "MAIN_COMPONENTS.buttons.profile.logout" | translate }}</span>
-          </button>
-        </mat-menu>
-      }
-    </mat-toolbar>
-  `,
+  templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
+
   private isLoggedIn = signal(false);
+  public isDarkMode = computed(()=>this.themeSvc.isDarkTheme());
   public products = signal([]);
 
   public searchInput = new FormControl('');
@@ -150,6 +70,7 @@ export class HeaderComponent implements OnInit {
     private sidenavSvc: SidenavService,
     private router: Router,
     private translateSvc: TranslateService,
+    private themeSvc: ThemeService,
     private dialogSvc: DialogService,
     private store: Store
   ) {
@@ -190,6 +111,10 @@ export class HeaderComponent implements OnInit {
     );
   }
 
+  toggleTheme(){
+    this.themeSvc.toggleTheme();
+  }
+
   private _filter(value: string): OptionItem[] {
     const filterValue = value.toLowerCase();
     return this.options.filter((option) =>
@@ -217,17 +142,23 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  openUpdateDialog(userId: string) {
-    const dialogRef = this.dialogSvc.open(EditProfileDialogComponent, {
-      user: { id: userId } as UserDomain,
-      title: 'Account information',
-    });
+  openUpdateDialog() {
 
-    dialogRef.closed.subscribe((res) => {
-      if (res?.updated) {
-        console.log('Dialog closed!');
-      }
-    });
+    const userId = localStorage.getItem('userId');
+
+    if (userId) {
+      const dialogRef = this.dialogSvc.open(EditProfileDialogComponent, {
+        user: { id: userId } as UserDomain,
+        title: 'Account information',
+      });
+  
+      dialogRef.closed.subscribe((res) => {
+        if (res?.updated) {
+          //console.log('Dialog closed!');
+        }
+      });
+    }
+
   }
 
   logout() {

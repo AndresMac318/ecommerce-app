@@ -1,7 +1,130 @@
-//@use "./assets/styles/root.scss";
 @use '../public/styles/root.scss';
 
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
 
-/* html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
+@use '../public/styles/custom-palette_theme-colors.scss' as custom;
+
+
+html {
+  // change to dark mode =>
+  // color-scheme: light dark;
+  @include mat.theme((
+    color: (
+      primary: custom.$primary-palette,
+      tertiary: custom.$tertiary-palette,
+      //theme-type: light,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+
+  
+}
+
+body{
+  //background: background;
+  background: var(--mat-sys-surface-container);
+  &.dark-theme{
+    color-scheme: dark;
+    //background: var(background);
+    background: var(--mat-sys-surface-container);
+    
+  }
+
+  /* a, li, ul{
+    color: var(mat-sys-on-surface-variant);
+  } */
+}
+
+
+
+// create custom light theme
+/* $custom-light-theme: mat.define-theme((
+  color: (
+    //theme-type: light,
+    primary: mat.$azure-palette
+  ),
+  typography: ( plain-family: Roboto, brand-family: Roboto ),
+  density: ( scale: 0 )
+)); */
+
+// create custom dark theme
+/* $custom-dark-theme: mat.define-theme((
+  color: (
+    theme-type: dark, //theme type
+    primary: mat.$cyan-palette, //using magenta
+    tertiary: mat.$cyan-palette,
+  ),
+  typography: ( plain-family: Roboto, brand-family: Roboto ),
+  density: ( scale: 0 )
+)); */
+
+/* html {
+  @include mat.theme($custom-light-theme);
+
+  @include mat.core-theme($custom-light-theme); //applied theme by default
+  @include mat.all-component-themes($custom-light-theme); //applied theme by default
+  @include mat.all-component-colors($custom-light-theme);
+  //@include mat.icon-theme($custom-light-theme);
+  //@include mat.all-component-colors($custom-light-theme);
+} */
+
+/* body {
+  color: var(--mat-sys-on-surface);
+  background-color: var(--mat-sys-on-secondary);
+
+  &.dark-theme {
+    color-scheme: dark;
+    //@include mat.all-component-themes($custom-dark-theme);
+
+    
+  }
+}  */
+
+
+
+
+/* html {
+  // change to dark mode =>
+  // color-scheme: light dark;
+  @include mat.theme((
+    color: (
+      primary: custom.$primary-palette,
+      tertiary: custom.$tertiary-palette,
+      //theme-type: light,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+*/
+
+
+
+/* .dark-theme{
+  color-scheme: dark;
+  .mat-sidenav-container {
+    background-color: #121212;
+    color: white;
+  }
+
+  .mat-sidenav {
+    background-color: #1e1e1e;
+    color: white;
+  }
+
+  .mat-nav-list {
+    background-color: inherit;
+    color: inherit;
+  }
+
+  .mat-list-item {
+    color: white;
+  }
+
+  .mat-icon {
+    color: white;
+  }
+} */
+
+

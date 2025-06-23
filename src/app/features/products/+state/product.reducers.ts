@@ -63,6 +63,23 @@ export const productReducer = createReducer(
       error,
     })
   ),
+  on(ProductActions.updateProductStock, (state) => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+  
+  on(ProductActions.updateProductStockSuccess, (state, { product }) => ({
+    ...state,
+    loading: false,
+    currentProduct: product
+  })),
+  
+  on(ProductActions.updateProductStockFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
+  })),
   on(
     ProductActions.getProductById,
     (state): ProductState => ({
@@ -89,24 +106,6 @@ export const productReducer = createReducer(
       currentPageData: [],
     })
   ),
-  // ? background update
-  on(
-    ProductActions.backgroundUpdateSuccess,
-    (state, { cacheKey, products }): ProductState => ({
-      ...state,
-      cache: {
-        ...state.cache,
-        [cacheKey]: {
-          data: products,
-          timestamp: Date.now(),
-        },
-      },
-      currentPageData:
-        state.currentPageData === state.cache[cacheKey].data
-          ? products
-          : state.currentPageData,
-    })
-  ),
   on(
     ProductActions.applyFilters,
     (state, { filters }): ProductState => ({
@@ -115,7 +114,6 @@ export const productReducer = createReducer(
       filters: { ...filters },
       pagination: {
         ...state.pagination,
-        //currentPage: 1,
       },
     })
   ),

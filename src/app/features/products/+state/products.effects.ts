@@ -53,10 +53,8 @@ export class ProductEffects {
             // # case 1: data in cache & vigent
             const CACHE_TTL = 2 * 60 * 1000;
             if (cache && Date.now() - cache.timestamp < CACHE_TTL) {
-              //console.log('CACHE if');
               return [
                 ProductsActions.loadCachedProducts({ cacheKey }),
-                // ? ProductsActions.backgroundUpdateRequest({ cacheKey }) //opcional
               ];
             }
 
@@ -88,22 +86,6 @@ export class ProductEffects {
     );
   });
 
-  // ? background updates effect
-  /* getProductsBackgroundUpdate$ = createEffect(() => 
-    this.actions$.pipe(
-      ofType(ProductsActions.backgroundUpdateRequest),
-      switchMap(({ cacheKey }) => {
-        const { page, pageSize, filters } = parseCacheKey(cacheKey);
-        
-        return this.productsSvc.getProductsPaginated(page, pageSize, filters).pipe(
-          tap(() => console.log('background updates...')),
-          map(({ products }) => ProductsActions.backgroundUpdateSuccess({ cacheKey, products })),
-          catchError(error => of(ProductsActions.backgroundUpdateFailure({ cacheKey, error })))
-        )
-      })
-    )
-  ); */
-
   getProductsFailure$ = createEffect(
     () => {
       return this.actions$.pipe(
@@ -111,6 +93,41 @@ export class ProductEffects {
         tap(({ error }) => {
           console.error('Products Load failure', error);
           Swal.fire('Error', 'Error during products load');
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  updateProductStock$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ProductsActions.updateProductStock),
+      exhaustMap(({ id, stock }) =>
+        this.productsSvc.updateProductStock(id, stock).pipe(
+          map((product) => ProductsActions.updateProductStockSuccess({ product })),
+          catchError((error) => of(ProductsActions.updateProductStockFailure({ error: error.message })))
+        )
+      )
+    );
+  });
+
+  // effect to manage stock update successfully
+  updateProductStockSuccess$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(ProductsActions.updateProductStockSuccess),
+      );
+    },
+    { dispatch: false }
+  );
+
+  updateProductStockFailure$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(ProductsActions.updateProductStockFailure),
+        tap(({ error }) => {
+          console.error('Error updating stock:', error);
+          Swal.fire('Error', 'Failed to update product stock', 'error');
         })
       );
     },

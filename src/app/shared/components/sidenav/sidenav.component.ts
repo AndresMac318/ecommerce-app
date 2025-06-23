@@ -14,6 +14,7 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslatePipe } from '@ngx-translate/core';
+import { FooterComponent } from "../footer/footer.component";
 
 @Component({
   selector: 'app-sidenav',
@@ -26,7 +27,8 @@ import { TranslatePipe } from '@ngx-translate/core';
     MatIconModule,
     MatMenuModule,
     TranslatePipe,
-  ],
+    FooterComponent
+],
   template: `
     <mat-drawer-container class="container" autosize>
       <mat-drawer #drawer class="example-sidenav" mode="side">
@@ -36,7 +38,6 @@ import { TranslatePipe } from '@ngx-translate/core';
               class="menu__item"
               routerLink="/products"
               routerLinkActive="menu__selected"
-              [routerLinkActiveOptions]="{ exact: false }"
             >
               <mat-icon>local_mall</mat-icon>
               {{ 'MAIN_COMPONENTS.sidenav.items.item1' | translate }}
@@ -47,34 +48,34 @@ import { TranslatePipe } from '@ngx-translate/core';
               class="menu__item"
               routerLink="/buys"
               routerLinkActive="menu__selected"
-              [routerLinkActiveOptions]="{ exact: false }"
             >
               <mat-icon>shopping_cart</mat-icon>
               {{ 'MAIN_COMPONENTS.sidenav.items.item2' | translate }}
             </a>
           </li>
           <li>
-            <a class="menu__item" routerlink="">
+            <a class="menu__item">
               <mat-icon>sell</mat-icon>
               {{ 'MAIN_COMPONENTS.sidenav.items.item3' | translate }}
             </a>
           </li>
           <li>
-            <a class="menu__item" routerlink="">
+            <a class="menu__item">
               <mat-icon>history</mat-icon>
               {{ 'MAIN_COMPONENTS.sidenav.items.item4' | translate }}
             </a>
           </li>
           <li>
-            <a class="menu__item" routerlink="">
+            <a class="menu__item">
               <mat-icon>favorite</mat-icon>
               {{ 'MAIN_COMPONENTS.sidenav.items.item5' | translate }}
             </a>
           </li>
         </ul>
       </mat-drawer>
-      <mat-drawer-content>
+      <mat-drawer-content class="drawer-container">
         <router-outlet />
+        <app-footer></app-footer>
       </mat-drawer-content>
     </mat-drawer-container>
   `,

@@ -18,6 +18,9 @@
                 "labels": {
                     "name": "Name",
                     "email": "Email",
+                    "cellphone_number": "Cellphone number",
+                    "date_of_birth": "Date of birth",
+                    "address": "Address",
                     "password": "Password"
                 },
                 "text_btn": "Log In",
@@ -25,10 +28,13 @@
             }
         },
         "errors": {
-            "name": "Name is mandatory",
-            "email": "Email is mandatory",
+            "name": "Name is required",
+            "email": "Email is required",
             "email_invalid": "Email invalid",
-            "password": "Password is mandatory"
+            "cellphone_invalid": "Cellphone number is invalid",
+            "dateofbirth_invalid": "Date of birth is required",
+            "address_invalid": "Address is required",
+            "password": "Password is required"
         }
     },
     "MAIN_COMPONENTS": {
@@ -53,6 +59,10 @@
                 "profile": "Profile",
                 "logout": "Logout"
             }
+        },
+        "footer": {
+            "text1": "About by developer",
+            "text2": "- Eng. Luis Andrés Macea"
         }
     },
     "PRODUCTS": {
@@ -65,6 +75,7 @@
         "product_detail": {
             "stock": "Stock available",
             "no_stock": "Stock unavailable",
+            "label_quantity": "Quantity",
             "text": "Buy know!",
             "description": "Description"
         }

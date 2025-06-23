@@ -26,14 +26,19 @@ textarea {
 }
 
 .myDialog {
+    
+    color: var(--mat-sys-on-surface);
+    
+    display: block;
     width: 100%;
     height: fit-content;
     overflow-y: scroll;
     scrollbar-width: none;
-    //padding: 20px;
-    //margin: 20px;
-    display: block;
     transition: all 100ms linear;    
+    
+    // background-color: var(--mat-sys-surface);
+    // padding: 20px;
+    //margin: 20px;
 
     // transition: transform 300ms ease-out, opacity 300ms ease-out;
 

@@ -4,25 +4,26 @@
 :host {
   display: block;
   .mat-toolbar {
-    background: #d7e3ff;
-    color: variables.color(blue-2);
+    background-color: var(--mat-sys-surface-container-high);
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
   }
-  mat-icon {
-    color: variables.color(blue-2);
-  }
-
+  
   .navbar {
     &__title {
       display: none;
+      color: var(--mat-sys-primary);
       font-weight: 500;
     }
   }
-
+  
+  mat-icon {
+    color: var(--mat-sys-primary);
+  }
+  
   @include mixins.tablet() {
     .navbar {
       &__title {
         display: block;
-        color: variables.color(blue-2);
       }
     }
   }
@@ -44,8 +45,16 @@
     border: none;
     &:focus {
       outline: none;
-      border-color: variables.color(blue-2);
+      caret-color: var(--mat-sys-surface-tint);
+      border-color: none;
       box-shadow: rgb(1, 118, 211) 0px 0px 3px 0px;
     }
+  }
+}
+
+.hide{
+  display: none;
+  @include mixins.mobile(){
+    display: block;
   }
 }

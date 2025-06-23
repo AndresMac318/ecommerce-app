@@ -16,7 +16,7 @@
       margin: auto;
       padding: 20px;
       cursor: pointer;
-      background-color: variables.color(white-3);
+      background-color: var(--mat-sys-surface-container-high);
       box-shadow: 2px 0px 2px 0px rgba(214, 214, 214, 1);
       -webkit-box-shadow: 2px 0px 3px 0px rgb(214, 214, 214);
       -moz-box-shadow: 2px 0px 3px 0px rgb(214, 214, 214);

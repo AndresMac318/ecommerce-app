@@ -23,6 +23,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 
 import { signup } from '../../../+state/user.actions';
 import { MatIconModule } from '@angular/material/icon';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
@@ -69,15 +70,19 @@ import { MatIconModule } from '@angular/material/icon';
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Número de celular</mat-label>
+          <mat-label>{{
+            'AUTH.REGISTER.FORM.labels.cellphone_number' | translate
+          }}</mat-label>
           <input matInput type="text" formControlName="phoneNumber" required />
           @if (controlHasError('name', 'required')) {
-            <mat-error> * error con el numero </mat-error>
+            <mat-error> * {{ 'AUTH.errors.cellphone_invalid' | translate }}</mat-error>
           }
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Date of Birth</mat-label>
+          <mat-label>{{
+            'AUTH.REGISTER.FORM.labels.date_of_birth' | translate
+          }}</mat-label>
           <input
             matInput
             [matDatepicker]="picker"
@@ -90,15 +95,17 @@ import { MatIconModule } from '@angular/material/icon';
           ></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
           @if (controlHasError('dateOfBirth', 'required')) {
-            <mat-error> * Date of Birth is required. </mat-error>
+            <mat-error> * {{ 'AUTH.errors.dateofbirth_invalid' | translate }} </mat-error>
           }
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Address</mat-label>
+          <mat-label>{{
+            'AUTH.REGISTER.FORM.labels.address' | translate
+          }}</mat-label>
           <input matInput type="text" formControlName="address" required />
           @if (controlHasError('address', 'required')) {
-            <mat-error> * Direccion requerida </mat-error>
+            <mat-error> * {{ 'AUTH.errors.address_invalid' | translate }} </mat-error>
           }
         </mat-form-field>
 
@@ -122,8 +129,7 @@ import { MatIconModule } from '@angular/material/icon';
         </mat-form-field>
 
         <button
-          mat-raised-button
-          color="primary"
+          mat-flat-button
           type="submit"
           [disabled]="registerForm.invalid"
         >
@@ -165,10 +171,9 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     if (this.registerForm.valid) {
       const userData = { ...this.registerForm.value };
-      console.log(userData);
-      this.store.dispatch(signup({ userData }));
+      return this.store.dispatch(signup({ userData }));
     } else {
-      console.log('Form invalid');
+      return Swal.fire('Alert', 'Form invalid!', 'info');
     }
   }
 

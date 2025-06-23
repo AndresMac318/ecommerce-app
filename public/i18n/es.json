@@ -18,17 +18,23 @@
                 "labels": {
                     "name": "Nombre",
                     "email": "Correo electrónico",
-                    "password": "Contraseña" 
+                    "cellphone_number": "Número de celular",
+                    "date_of_birth": "Fecha de nacimiento",
+                    "address": "Dirección",
+                    "password": "Contraseña"
                 },
                 "text_btn": "Registrarse",
                 "text_have_account": "¿Ya tienes cuenta? Inicia sesión"
             }
         },
         "errors": {
-            "name": "El nombre es obligatorio",
-            "email": "El correo electrónico es obligatorio",
-            "email_invalid": "El correo electrónico es invalido",
-            "password": "La contraseña es obligatoria"
+            "name": "El nombre es requerido",
+            "email": "El correo electrónico es requerido",
+            "email_invalid": "El correo electrónico es inválido",
+            "cellphone_invalid": "El número de celular es inválido",
+            "dateofbirth_invalid": "La fecha de nacimiento es requerida",
+            "address_invalid": "La dirección es requerida",
+            "password": "La contraseña es requerida"
         }
     },
     "MAIN_COMPONENTS": {
@@ -53,6 +59,10 @@
                 "profile": "Perfil",
                 "logout": "Salir"
             }
+        },
+        "footer": {
+            "text1": "Acerca del desarrollador",
+            "text2": "- Ing. Luis Andrés Macea"
         }
     },
     "PRODUCTS": {
@@ -65,6 +75,7 @@
         "product_detail": {
             "stock": "Stock disponible",
             "no_stock": "Stock no disponible",
+            "label_quantity": "Cantidad",
             "text": "Compra ahora!",
             "description": "Descripción"
         }

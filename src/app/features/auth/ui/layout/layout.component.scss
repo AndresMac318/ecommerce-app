@@ -3,8 +3,14 @@
 }
 
 .container {
+  display: grid;
+  min-height: 100dvh;
+  grid-template-rows: auto 1fr auto;
+}
+
+.body {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding: 40px 30px;
+  justify-self: center;
+  padding: 30px;
 }

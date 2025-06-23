@@ -27,6 +27,10 @@ export class ProductUseCaseService {
     return this.productAPIService.getProductsPaginated(page, pageSize, filters);
   }
 
+  updateProductStock(id: string, stock: number){
+    return this.productAPIService.updateProductStock(id, stock);
+  }
+
   getProductById(userId: string): Observable<ProductDomain> {
     return this.productAPIService.getProductById(userId);
   }
